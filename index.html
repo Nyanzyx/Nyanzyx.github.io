@@ -3,608 +3,481 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Logan Smith — Combat / Technical Designer</title>
+<title>Logan Smith — Combat & Technical Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #0a0a0b;
-    --bg2: #111113;
-    --bg3: #18181c;
-    --line: rgba(255,255,255,0.07);
-    --accent: #e8ff47;
-    --accent2: #ff4f4f;
-    --text: #e8e6df;
-    --muted: #6b6960;
-    --card-hover: #1c1c21;
-  }
+:root {
+  --white:   #ffffff;
+  --off:     #111111;
+  --black:   #000000;
+  --mid:     #01E0A2;
+  --light:   #666666;
+  --rule:    #222222;
+  --accent:  #8405F7;
+  --purple:  #8405F7;
+  --green:   #01E0A2;
+}
 
-  html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.6;
-  }
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px;
+  height: 60px;
+  background: rgba(0,0,0,0.96);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(8px);
+}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 48px;
-    border-bottom: 1px solid var(--line);
-    background: rgba(10,10,11,0.92);
-    backdrop-filter: blur(12px);
-  }
+.nav-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
 
-  .nav-logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.12em;
-    color: var(--text);
-    text-decoration: none;
-  }
+.nav-links {
+  display: flex; gap: 36px;
+  list-style: none; align-items: center;
+}
 
-  .nav-logo span { color: var(--accent); }
+.nav-links a {
+  font-size: 13px;
+  color: var(--mid);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
 
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    align-items: center;
-  }
+.nav-links a:hover { color: var(--white); }
 
-  .nav-links a {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+.nav-links .resume {
+  color: var(--white);
+  border-bottom: 1px solid var(--white);
+  padding-bottom: 1px;
+}
 
-  .nav-links a:hover { color: var(--text); }
+/* ── SECTION LABEL ── */
+.section-label {
+  padding: 24px 48px 16px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mid);
+  border-bottom: 1px solid var(--rule);
+}
 
-  .nav-links .cta {
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 6px 16px;
-  }
+/* ── PROJECT GRID ── */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 24px 48px;
+  border-bottom: 1px solid var(--rule);
+}
 
-  .nav-links .cta:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
+.project-card {
+  text-decoration: none;
+  display: block;
+  border: 1px solid var(--purple);
+  position: relative;
+  overflow: hidden;
+  background: var(--black);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0 48px 72px;
-    position: relative;
-    border-bottom: 1px solid var(--line);
-  }
+.project-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 16px rgba(1,224,162,0.15);
+}
 
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--line) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
-  }
+/* image */
+.card-img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--off);
+  overflow: hidden;
+  display: block;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
 
-  .hero-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
+.card-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
 
-  .hero-tag::before {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 1px;
-    background: var(--accent);
-  }
+.project-card:hover .card-img img { transform: scale(1.03); }
 
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(72px, 12vw, 160px);
-    line-height: 0.88;
-    letter-spacing: 0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
+/* placeholder */
+.img-ph {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px;
+  background: #0a0a0a;
+}
 
-  .hero-title .highlight {
-    color: var(--accent);
-    display: block;
-  }
+.img-ph span {
+  font-size: 11px; color: var(--light);
+  letter-spacing: 0.08em;
+}
 
-  .hero-sub {
-    font-size: 15px;
-    color: var(--muted);
-    max-width: 440px;
-    line-height: 1.7;
-    margin-bottom: 40px;
-  }
+.img-ph code {
+  font-size: 10px; color: #333;
+}
 
-  .hero-ctas {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    flex-wrap: wrap;
-  }
+/* wip tag */
+.tag-wip {
+  position: absolute; top: 10px; left: 10px;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--green);
+  background: rgba(0,0,0,0.85);
+  border: 1px solid var(--green);
+  padding: 3px 9px;
+}
 
-  .btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 14px 28px;
-    transition: all 0.2s;
-    display: inline-block;
-  }
+/* card info */
+.card-info {
+  padding: 20px 24px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
 
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-  }
+.card-text { flex: 1; }
 
-  .btn-primary:hover {
-    background: #fff;
-  }
+.card-genre {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 4px;
+}
 
-  .btn-ghost {
-    border: 1px solid var(--line);
-    color: var(--muted);
-  }
+.card-title {
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
 
-  .btn-ghost:hover {
-    border-color: var(--text);
-    color: var(--text);
-  }
+.card-sub {
+  font-size: 12px;
+  color: var(--light);
+}
 
-  .hero-scroll {
-    position: absolute;
-    right: 48px;
-    bottom: 72px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    writing-mode: vertical-rl;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.card-arrow {
+  font-size: 16px;
+  color: var(--purple);
+  transition: color 0.15s, transform 0.2s;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
 
-  .hero-scroll::after {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--muted), transparent);
-  }
+.project-card:hover .card-arrow {
+  color: var(--green);
+  transform: translate(2px, -2px);
+}
 
-  /* ── SECTION LAYOUT ── */
-  section { padding: 96px 48px; }
+/* ── SKILLS ROW ── */
+.skills-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid var(--rule);
+}
 
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 48px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+.skill-col {
+  padding: 36px 48px;
+  border-right: 1px solid var(--rule);
+}
+.skill-col:last-child { border-right: none; }
 
-  .section-label::after {
-    content: '';
-    flex: 1;
-    max-width: 80px;
-    height: 1px;
-    background: var(--accent);
-    opacity: 0.4;
-  }
+.skill-col h3 {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 16px;
+}
 
-  /* ── PROJECTS GRID ── */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 2px;
-  }
+.skill-col ul { list-style: none; }
 
-  .project-card {
-    background: var(--bg2);
-    border: 1px solid var(--line);
-    text-decoration: none;
-    display: block;
-    padding: 36px 32px;
-    transition: background 0.25s, border-color 0.25s;
-    position: relative;
-    overflow: hidden;
-  }
+.skill-col li {
+  font-size: 13px;
+  color: var(--white);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--accent);
-    transition: height 0.3s ease;
-  }
+.skill-col li:last-child { border-bottom: none; }
 
-  .project-card:hover {
-    background: var(--card-hover);
-    border-color: rgba(255,255,255,0.12);
-  }
+.skill-col li::before {
+  content: '';
+  display: block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--purple);
+  flex-shrink: 0;
+}
 
-  .project-card:hover::before { height: 100%; }
+/* ── CONTACT ── */
+.contact {
+  padding: 80px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--rule);
+}
 
-  .card-genre {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
+.contact h2 {
+  font-size: clamp(24px, 3.5vw, 40px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--white);
+  margin-bottom: 8px;
+}
 
-  .card-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px;
-    letter-spacing: 0.05em;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1;
-  }
+.contact p {
+  font-size: 14px;
+  color: var(--green);
+}
 
-  .card-type {
-    font-size: 12px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
+.contact-links {
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+}
 
-  .card-meta {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding-top: 20px;
-    border-top: 1px solid var(--line);
-  }
+.btn {
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 11px 24px;
+  transition: all 0.18s;
+  display: inline-block;
+  letter-spacing: -0.01em;
+}
 
-  .card-meta-item {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
+.btn-dark {
+  background: var(--purple); color: var(--white);
+}
+.btn-dark:hover { background: var(--green); color: var(--black); }
 
-  .card-meta-item strong {
-    display: block;
-    color: var(--text);
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
+.btn-outline {
+  border: 1px solid var(--rule); color: var(--light);
+}
+.btn-outline:hover { border-color: var(--purple); color: var(--white); }
 
-  .card-arrow {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    font-size: 18px;
-    color: var(--muted);
-    transition: color 0.2s, transform 0.2s;
-  }
+/* ── FOOTER ── */
+footer {
+  padding: 18px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--light);
+}
 
-  .project-card:hover .card-arrow {
-    color: var(--accent);
-    transform: translate(3px, -3px);
-  }
-
-  .card-wip {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--accent2);
-    border: 1px solid var(--accent2);
-    padding: 3px 8px;
-    margin-left: 10px;
-    vertical-align: middle;
-  }
-
-  /* ── SKILLS / ABOUT STRIP ── */
-  .skills-strip {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    overflow: hidden;
-  }
-
-  .skills-col {
-    flex: 1;
-    padding: 48px 36px;
-    border-right: 1px solid var(--line);
-  }
-
-  .skills-col:last-child { border-right: none; }
-
-  .skills-col h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 16px;
-  }
-
-  .skills-col ul {
-    list-style: none;
-  }
-
-  .skills-col li {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    padding: 6px 0;
-    border-bottom: 1px solid var(--line);
-    letter-spacing: 0.05em;
-  }
-
-  .skills-col li:last-child { border-bottom: none; }
-
-  /* ── CONTACT ── */
-  .contact-section {
-    text-align: center;
-    padding: 120px 48px;
-  }
-
-  .contact-section h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(48px, 8vw, 96px);
-    letter-spacing: 0.04em;
-    margin-bottom: 20px;
-  }
-
-  .contact-section p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 40px;
-    font-family: 'DM Mono', monospace;
-    letter-spacing: 0.1em;
-  }
-
-  .contact-links {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--line);
-    padding: 24px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-tag { animation: fadeUp 0.6s ease both; }
-  .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
-  .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
-  .hero-ctas { animation: fadeUp 0.6s 0.3s ease both; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 18px 24px; }
-    .nav-links { gap: 20px; }
-    .hero, section { padding-left: 24px; padding-right: 24px; }
-    .hero { padding-bottom: 48px; }
-    .hero-scroll { display: none; }
-    .projects-grid { grid-template-columns: 1fr; }
-    .skills-strip { flex-direction: column; }
-    .skills-col { border-right: none; border-bottom: 1px solid var(--line); }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-  }
+/* ── RESPONSIVE ── */
+@media (max-width: 800px) {
+  nav, .intro, .section-label, .contact, footer { padding-left: 20px; padding-right: 20px; }
+  .intro { flex-direction: column; align-items: flex-start; padding-top: 48px; padding-bottom: 40px; }
+  .intro-right { display: none; }
+  .projects { grid-template-columns: 1fr; }
+  .project-card { border-right: none; }
+  .project-card:nth-child(2n) { border-right: none; }
+  .skills-row { grid-template-columns: 1fr; }
+  .skill-col { padding: 28px 20px; border-right: none; }
+  .contact { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <a href="index.html" class="nav-name">Logan Smith</a>
   <ul class="nav-links">
-    <li><a href="index.html">Projects</a></li>
+    <li><a href="index.html">Work</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="resume">Resume ↗</a></li>
   </ul>
 </nav>
 
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-tag">Combat / Technical Designer</div>
-  <h1 class="hero-title">
-    Logan<br>
-    <span class="highlight">Smith</span>
-  </h1>
-  <p class="hero-sub">Designing and implementing combat systems, enemy AI, and player-facing gameplay in Unreal Engine 5. Focused on making combat readable, fair, and deeply satisfying.</p>
-  <div class="hero-ctas">
-    <a href="#projects" class="btn btn-primary">View Projects</a>
-    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-ghost">Get In Touch</a>
-  </div>
-  <div class="hero-scroll">Scroll</div>
-</section>
+<div class="section-label">Selected Work</div>
 
-<section id="projects" style="padding-top: 80px; padding-bottom: 0;">
-  <div class="section-label">Selected Work</div>
-</section>
-
-<div class="projects-grid">
+<div class="projects">
 
   <a href="beast-of-the-west.html" class="project-card">
-    <span class="card-arrow">↗</span>
-    <div class="card-genre">UE5 · Combat Design · AI Systems</div>
-    <div class="card-title">Beast of the West <span class="card-wip">WIP</span></div>
-    <div class="card-type">Single Player — Third Person Action Adventure</div>
-    <div class="card-meta">
-      <div class="card-meta-item"><strong>Platform</strong>PC</div>
-      <div class="card-meta-item"><strong>Team</strong>3 People</div>
-      <div class="card-meta-item"><strong>Role</strong>Combat Designer</div>
-      <div class="card-meta-item"><strong>Playtime</strong>30 min</div>
+    <div class="card-img">
+      <!-- To add image: save a screenshot, then replace the img-ph div below with:
+           <img src="images/beast-of-the-west.jpg" alt="Beast of the West"> -->
+      <div class="img-ph">
+        <span>Add screenshot</span>
+        <code>images/beast-of-the-west.jpg</code>
+      </div>
+      <span class="tag-wip">In Progress</span>
+    </div>
+    <div class="card-info">
+      <div class="card-text">
+        <div class="card-genre">Combat Design · AI Systems</div>
+        <div class="card-title">Beast of the West</div>
+        <div class="card-sub">Third Person Action Adventure &nbsp;·&nbsp; Team of 3</div>
+      </div>
+      <span class="card-arrow">↗</span>
     </div>
   </a>
 
   <a href="off-air.html" class="project-card">
-    <span class="card-arrow">↗</span>
-    <div class="card-genre">UE5 · Combat Design · Technical Design</div>
-    <div class="card-title">Off Air</div>
-    <div class="card-type">Single Player — FPS Boomer Shooter</div>
-    <div class="card-meta">
-      <div class="card-meta-item"><strong>Platform</strong>PC</div>
-      <div class="card-meta-item"><strong>Team</strong>5 People</div>
-      <div class="card-meta-item"><strong>Role</strong>Technical Designer · Team Lead</div>
-      <div class="card-meta-item"><strong>Playtime</strong>1 Hour</div>
+    <div class="card-img">
+      <!-- <img src="images/off-air.jpg" alt="Off Air"> -->
+      <div class="img-ph">
+        <span>Add screenshot</span>
+        <code>images/off-air.jpg</code>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-text">
+        <div class="card-genre">Technical Design · Combat Design</div>
+        <div class="card-title">Off Air</div>
+        <div class="card-sub">FPS Boomer Shooter &nbsp;·&nbsp; Team of 5 &nbsp;·&nbsp; Team Lead</div>
+      </div>
+      <span class="card-arrow">↗</span>
     </div>
   </a>
 
   <a href="project-potion.html" class="project-card">
-    <span class="card-arrow">↗</span>
-    <div class="card-genre">UE5 · Player Character · Enemy Design</div>
-    <div class="card-title">Project Potion</div>
-    <div class="card-type">Single Player — 2D Side-scroller Adventure</div>
-    <div class="card-meta">
-      <div class="card-meta-item"><strong>Platform</strong>PC</div>
-      <div class="card-meta-item"><strong>Team</strong>7 People</div>
-      <div class="card-meta-item"><strong>Role</strong>Player Designer · Team Lead</div>
-      <div class="card-meta-item"><strong>Playtime</strong>10 min</div>
+    <div class="card-img">
+      <!-- <img src="images/project-potion.jpg" alt="Project Potion"> -->
+      <div class="img-ph">
+        <span>Add screenshot</span>
+        <code>images/project-potion.jpg</code>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-text">
+        <div class="card-genre">Player Character · Enemy Design</div>
+        <div class="card-title">Project Potion</div>
+        <div class="card-sub">2D Side-scroller &nbsp;·&nbsp; Team of 7 &nbsp;·&nbsp; Team Lead</div>
+      </div>
+      <span class="card-arrow">↗</span>
     </div>
   </a>
 
   <a href="unsanctified.html" class="project-card">
-    <span class="card-arrow">↗</span>
-    <div class="card-genre">UE5 · Combat Design · Weapon Systems</div>
-    <div class="card-title">Unsanctified</div>
-    <div class="card-type">Single Player — TPS Action Adventure Soulslike</div>
-    <div class="card-meta">
-      <div class="card-meta-item"><strong>Platform</strong>PC</div>
-      <div class="card-meta-item"><strong>Team</strong>23 People</div>
-      <div class="card-meta-item"><strong>Role</strong>Combat Designer</div>
-      <div class="card-meta-item"><strong>Playtime</strong>2 Hours</div>
+    <div class="card-img">
+      <!-- <img src="images/unsanctified.jpg" alt="Unsanctified"> -->
+      <div class="img-ph">
+        <span>Add screenshot</span>
+        <code>images/unsanctified.jpg</code>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-text">
+        <div class="card-genre">Combat Design · Weapon Systems</div>
+        <div class="card-title">Unsanctified</div>
+        <div class="card-sub">TPS Soulslike &nbsp;·&nbsp; Team of 23</div>
+      </div>
+      <span class="card-arrow">↗</span>
     </div>
   </a>
 
   <a href="devils-in-the-details.html" class="project-card">
-    <span class="card-arrow">↗</span>
-    <div class="card-genre">UE5 · AI Design · Enemy Systems</div>
-    <div class="card-title">Devil's In The Details</div>
-    <div class="card-type">Single Player — Isometric Horde Shooter</div>
-    <div class="card-meta">
-      <div class="card-meta-item"><strong>Platform</strong>PC</div>
-      <div class="card-meta-item"><strong>Team</strong>5 People</div>
-      <div class="card-meta-item"><strong>Role</strong>Player &amp; Enemy Designer · Team Lead</div>
-      <div class="card-meta-item"><strong>Playtime</strong>10 min</div>
+    <div class="card-img">
+      <!-- <img src="images/devils-in-the-details.jpg" alt="Devil's in the Details"> -->
+      <div class="img-ph">
+        <span>Add screenshot</span>
+        <code>images/devils-in-the-details.jpg</code>
+      </div>
+    </div>
+    <div class="card-info">
+      <div class="card-text">
+        <div class="card-genre">AI Design · Enemy Systems</div>
+        <div class="card-title">Devil's in the Details</div>
+        <div class="card-sub">Isometric Horde Shooter &nbsp;·&nbsp; Team of 5 &nbsp;·&nbsp; Team Lead</div>
+      </div>
+      <span class="card-arrow">↗</span>
     </div>
   </a>
 
 </div>
 
-<section style="padding: 0;">
-  <div class="skills-strip">
-    <div class="skills-col">
-      <h3>Engine</h3>
-      <ul>
-        <li>Unreal Engine 5</li>
-        <li>Behavior Trees</li>
-        <li>State Trees / Machines</li>
-        <li>CommonUI</li>
-        <li>AI Perception System</li>
-        <li>Animation Blueprint</li>
-        <li>PaperZD</li>
-      </ul>
-    </div>
-    <div class="skills-col">
-      <h3>Design</h3>
-      <ul>
-        <li>Combat Systems Design</li>
-        <li>Enemy AI Design</li>
-        <li>Player Character (3 C's)</li>
-        <li>Level Flow / Encounter Design</li>
-        <li>Weapon & Damage Systems</li>
-        <li>Stealth Systems</li>
-        <li>Boss Design</li>
-      </ul>
-    </div>
-    <div class="skills-col">
-      <h3>Technical</h3>
-      <ul>
-        <li>C++ / Blueprint</li>
-        <li>Polymorphism / Interfaces</li>
-        <li>Editor Utility Widgets</li>
-        <li>Performance Optimization</li>
-        <li>Git / Jira / Confluence</li>
-        <li>Team Lead / Scrum</li>
-      </ul>
-    </div>
+<div class="skills-row">
+  <div class="skill-col">
+    <h3>Engine</h3>
+    <ul>
+      <li>Unreal Engine 5</li>
+      <li>Behavior Trees</li>
+      <li>State Trees</li>
+      <li>AI Perception System</li>
+      <li>Animation Blueprint</li>
+      <li>CommonUI</li>
+      <li>PaperZD</li>
+      <li>Editor Utility Widgets</li>
+    </ul>
   </div>
-</section>
+  <div class="skill-col">
+    <h3>Design</h3>
+    <ul>
+      <li>Combat Systems Design</li>
+      <li>Enemy AI Design</li>
+      <li>Player Character (3 C's)</li>
+      <li>Weapon &amp; Damage Systems</li>
+      <li>Stealth Systems</li>
+      <li>Boss Design</li>
+      <li>Encounter Design</li>
+    </ul>
+  </div>
+  <div class="skill-col">
+    <h3>Technical</h3>
+    <ul>
+      <li>C++ / Blueprint</li>
+      <li>Polymorphism &amp; Interfaces</li>
+      <li>Performance Optimization</li>
+      <li>Git</li>
+      <li>Jira / Confluence</li>
+      <li>Team Lead / Scrum</li>
+    </ul>
+  </div>
+</div>
 
-<section class="contact-section">
-  <h2>Let's Work Together</h2>
-  <p>logansmithnyan@gmail.com</p>
-  <div class="contact-links">
-    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-primary">Send Email</a>
-    <a href="https://www.linkedin.com/in/logan-smith-73a0a2197/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
-    <a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="btn btn-ghost">Resume ↗</a>
+<div class="contact">
+  <div>
+    <h2>Open to opportunities</h2>
+    <p>logansmithnyan@gmail.com</p>
   </div>
-</section>
+  <div class="contact-links">
+    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-dark">Get in touch</a>
+    <a href="https://www.linkedin.com/in/logan-smith-73a0a2197/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+    <a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="btn btn-outline">Resume ↗</a>
+  </div>
+</div>
 
 <footer>
   <span>© 2025 Logan Smith</span>

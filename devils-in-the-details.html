@@ -3,127 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Devil's in the Details — Logan Smith</title>
+<title>Devil's in the Details - Logan Smith</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project-style.css">
 </head>
 <body>
-
 <nav>
-  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <a href="index.html" class="nav-name">Logan Smith</a>
   <ul class="nav-links">
-    <li><a href="index.html">Projects</a></li>
+    <li><a href="index.html">Work</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="resume">Resume</a></li>
   </ul>
 </nav>
-
 <div class="project-hero">
-  <a href="index.html" class="back-link">← All Projects</a>
-  <div class="project-eyebrow">UE5 · AI Design · Enemy Systems · Team Lead</div>
-  <h1 class="project-title">Devil's in<br>The Details</h1>
-  <p class="project-tagline">A top-down roguelike inspired by Curse of the Dead Gods. You died fighting a high-level demon and accepted a contractor deal — earn your pass to heaven through revenge.</p>
+  <a href="index.html" class="back-link">All Work</a>
+  <div class="project-eyebrow">AI Design - Enemy Systems - Team Lead - UE5</div>
+  <h1 class="project-title">Devil's in the Details</h1>
+  <p class="project-tagline">A top-down roguelike inspired by Curse of the Dead Gods. You died fighting a high-level demon and accepted a deal to earn your way to heaven through revenge.</p>
   <div class="meta-bar">
     <div class="meta-item"><span class="label">Platform</span><span class="value">PC</span></div>
     <div class="meta-item"><span class="label">Engine</span><span class="value">Unreal Engine 5</span></div>
     <div class="meta-item"><span class="label">Duration</span><span class="value">4 Months</span></div>
-    <div class="meta-item"><span class="label">Team Size</span><span class="value">5 People</span></div>
+    <div class="meta-item"><span class="label">Team Size</span><span class="value">5</span></div>
     <div class="meta-item"><span class="label">Playtime</span><span class="value">10 min</span></div>
-    <div class="meta-item"><span class="label">Roles</span><span class="value">Player Designer · Enemy Designer · Team Lead</span></div>
+    <div class="meta-item"><span class="label">Roles</span><span class="value">Player Designer - Enemy Designer - Team Lead</span></div>
   </div>
 </div>
-
 <div class="project-content">
-
   <div class="content-section">
     <h2 class="section-heading">Responsibilities</h2>
     <ul class="resp-list">
-      <li>Designed a custom damage system with damage modifiers and effects</li>
+      <li>Designed a custom damage system with modifiers and effects</li>
       <li>Implemented 4-way locomotion and state machines for fluid movement and aiming</li>
       <li>Designed and implemented all enemy AI interactions and attacks</li>
-      <li>Helped implement Dodge Roll and Weapon Swapping into the player</li>
+      <li>Helped implement Dodge Roll and Weapon Swapping</li>
       <li>Managed Git repository and resolved collaboration errors</li>
       <li>Assigned roles and tasks to team members</li>
       <li>Managed Jira and Google Drive documentation</li>
     </ul>
   </div>
-
   <div class="content-section">
     <h2 class="section-heading">Player Character</h2>
-    <p class="body-text">With Curse of the Dead Gods as the main reference — also a roguelike — the main differentiating design goal was a focus on ranged gameplay. I built the initial iteration of the player character combat system before handing it off to another designer, while maintaining ownership of the animations and state machines.</p>
-
-    <div class="callout" style="margin:24px 0;">
+    <p class="body-text">With Curse of the Dead Gods as the main reference, the differentiating design goal was ranged-focused gameplay. I built the initial iteration of the combat system before handing it off, while maintaining ownership of the animations and state machines throughout.</p>
+    <div class="callout">
       <div class="callout-title">4-Way Locomotion</div>
-      <p>The player's facing direction is cursor-dependent — they can face any direction regardless of movement direction. This required blend space animations to handle sudden directional changes without snapping, giving the character a fluid feel when strafing or kiting enemies.</p>
+      <p>Facing direction is cursor-dependent - the player can face any direction regardless of movement direction. This required blend space animations to handle sudden directional changes without snapping, making strafing and kiting feel fluid rather than robotic.</p>
     </div>
-
-    <p class="body-text">At this stage in my development, I hadn't yet learned Animation Montages, so I used standard animation states for actions like reloading. However, I did experiment with multiple idle animations that cycle after a timer — a small addition, but it improved the overall player feel.</p>
-
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-label">Player Animation Blueprint</div>
-      <div class="ph-sub">Replace with: PlayerAnimBP_DITD.png from Wix</div>
+    <div class="img-placeholder" style="height:240px;">
+      <div class="ph-l">Player Animation Blueprint</div>
+      <div class="ph-s">images/devils-anim-bp.png</div>
     </div>
   </div>
-
   <div class="content-section">
     <h2 class="section-heading">Enemy Design</h2>
-    <p class="body-text">This was my first deep dive into AI design. I was interested in GOAP (Goal Oriented Action Planning) but used Unreal's native Behavior Trees due to limited documentation at the time. All enemies went through two major iterations — the second focused on strafing, multiple states, and more aggressive behavior.</p>
-
+    <p class="body-text">My first deep dive into AI design. Used Unreal's native Behavior Trees. All enemies went through two iterations - the second focused on strafing, multiple states, and more aggressive behavior overall.</p>
     <div class="enemy-grid">
       <div class="enemy-card">
         <div class="enemy-name">Skeleton</div>
-        <div class="enemy-desc">A hybrid melee/ranged enemy with a patrol sequence. Range to player determines which mode activates. Slightly clunky between multiple Behavior Trees — used as the foundational template for all other enemy BT layouts.</div>
+        <div class="enemy-desc">Hybrid melee and ranged. Range to player determines active mode. Served as the base template for all other enemy BT layouts and AI controllers.</div>
         <ul class="enemy-traits">
-          <li>Base for all other enemy BT layouts and AI controllers</li>
-          <li>Used in late levels to force constant repositioning</li>
-          <li>Getting close disarms the ranged advantage</li>
+          <li>Foundation for all other enemy setups</li>
+          <li>Forces constant repositioning in late levels</li>
+          <li>Closing distance disarms the ranged advantage</li>
         </ul>
       </div>
-
       <div class="enemy-card">
         <div class="enemy-name">Mage</div>
-        <div class="enemy-desc">A ranged-only enemy with a teleport when the player exits range — it never loses the player. Fires dark flame projectiles while strafing during attacks.</div>
+        <div class="enemy-desc">Ranged-only. Teleports when the player exits effective range - never loses the player. Strafes while attacking.</div>
         <ul class="enemy-traits">
-          <li>First enemy with strafing during attacks</li>
-          <li>Forces players out of cover positions</li>
-          <li>Uses Blueprint Interfaces for BT-to-character attack messages</li>
+          <li>First enemy with attack strafing</li>
+          <li>Forces players out of cover</li>
+          <li>BP Interfaces for BT-to-character messaging</li>
         </ul>
       </div>
-
       <div class="enemy-card">
         <div class="enemy-name">Bomber</div>
-        <div class="enemy-desc">Spawns in clusters and runs straight at the player. Becomes an invulnerable bomb on contact — proximity detonation. Color changes to signal when armed.</div>
+        <div class="enemy-desc">Spawns in clusters and runs straight at the player. Becomes an invulnerable bomb on contact. Color changes to signal when armed.</div>
         <ul class="enemy-traits">
-          <li>Forces kiting — standing still is fatal</li>
-          <li>Cluster spawning creates priority decisions</li>
-          <li>Color feedback when armed — readable under pressure</li>
+          <li>Standing still is fatal - must kite</li>
+          <li>Cluster spawning forces priority decisions</li>
+          <li>Color change provides armed feedback</li>
         </ul>
       </div>
-
       <div class="enemy-card">
         <div class="enemy-name">Earth Walker</div>
-        <div class="enemy-desc">A power enemy — big, slow, high damage. Ground slam triggers a player-targeted AoE stun at range. Designed to force sprint usage to escape.</div>
+        <div class="enemy-desc">Power enemy - big, slow, high damage. Ground slam triggers a player-targeted AoE stun large enough that sprint is required to escape reliably.</div>
         <ul class="enemy-traits">
-          <li>AoE requires sprint to reliably escape</li>
-          <li>Large hitbox — easy to hit, but tanky</li>
-          <li>Repositioning enemy — can't fight it while standing still</li>
+          <li>AoE forces sprint usage to escape</li>
+          <li>Large hitbox - easy to hit but very tanky</li>
+          <li>Cannot be engaged while standing still</li>
         </ul>
       </div>
     </div>
-
-    <div class="img-placeholder" style="height:240px; margin-top:32px;">
-      <div class="ph-label">Gameplay Screenshots</div>
-      <div class="ph-sub">Replace with: game screenshots from Wix (3 images)</div>
+    <div class="img-placeholder" style="height:220px; margin-top:24px;">
+      <div class="ph-l">Gameplay Screenshots</div>
+      <div class="ph-s">images/devils-gameplay.png</div>
     </div>
   </div>
-
 </div>
-
-<footer class="project-footer">
-  <a href="unsanctified.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">← Unsanctified</a>
-  <a href="index.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">All Projects →</a>
-</footer>
-
+<div class="project-footer">
+  <a href="unsanctified.html">Unsanctified</a>
+  <a href="index.html">All Work</a>
+</div>
 </body>
 </html>
