@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logan Smith — Combat / Technical Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0b;
+    --bg2: #111113;
+    --bg3: #18181c;
+    --line: rgba(255,255,255,0.07);
+    --accent: #e8ff47;
+    --accent2: #ff4f4f;
+    --text: #e8e6df;
+    --muted: #6b6960;
+    --card-hover: #1c1c21;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(10,10,11,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-links .cta {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+  }
+
+  .nav-links .cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 72px;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%);
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 12vw, 160px);
+    line-height: 0.88;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .hero-title .highlight {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+  }
+
+  .btn-ghost {
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--text);
+    color: var(--text);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    right: 48px;
+    bottom: 72px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  /* ── SECTION LAYOUT ── */
+  section { padding: 96px 48px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  /* ── PROJECTS GRID ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2px;
+  }
+
+  .project-card {
+    background: var(--bg2);
+    border: 1px solid var(--line);
+    text-decoration: none;
+    display: block;
+    padding: 36px 32px;
+    transition: background 0.25s, border-color 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--accent);
+    transition: height 0.3s ease;
+  }
+
+  .project-card:hover {
+    background: var(--card-hover);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .project-card:hover::before { height: 100%; }
+
+  .card-genre {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .card-type {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  .card-meta-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .card-meta-item strong {
+    display: block;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .card-arrow {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-size: 18px;
+    color: var(--muted);
+    transition: color 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover .card-arrow {
+    color: var(--accent);
+    transform: translate(3px, -3px);
+  }
+
+  .card-wip {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    border: 1px solid var(--accent2);
+    padding: 3px 8px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+
+  /* ── SKILLS / ABOUT STRIP ── */
+  .skills-strip {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    overflow: hidden;
+  }
+
+  .skills-col {
+    flex: 1;
+    padding: 48px 36px;
+    border-right: 1px solid var(--line);
+  }
+
+  .skills-col:last-child { border-right: none; }
+
+  .skills-col h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .skills-col ul {
+    list-style: none;
+  }
+
+  .skills-col li {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--line);
+    letter-spacing: 0.05em;
+  }
+
+  .skills-col li:last-child { border-bottom: none; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    text-align: center;
+    padding: 120px 48px;
+  }
+
+  .contact-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+  }
+
+  .contact-section p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 40px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.1em;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-ctas { animation: fadeUp 0.6s 0.3s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 18px 24px; }
+    .nav-links { gap: 20px; }
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    .hero { padding-bottom: 48px; }
+    .hero-scroll { display: none; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-strip { flex-direction: column; }
+    .skills-col { border-right: none; border-bottom: 1px solid var(--line); }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Projects</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-tag">Combat / Technical Designer</div>
+  <h1 class="hero-title">
+    Logan<br>
+    <span class="highlight">Smith</span>
+  </h1>
+  <p class="hero-sub">Designing and implementing combat systems, enemy AI, and player-facing gameplay in Unreal Engine 5. Focused on making combat readable, fair, and deeply satisfying.</p>
+  <div class="hero-ctas">
+    <a href="#projects" class="btn btn-primary">View Projects</a>
+    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-ghost">Get In Touch</a>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<section id="projects" style="padding-top: 80px; padding-bottom: 0;">
+  <div class="section-label">Selected Work</div>
+</section>
+
+<div class="projects-grid">
+
+  <a href="beast-of-the-west.html" class="project-card">
+    <span class="card-arrow">↗</span>
+    <div class="card-genre">UE5 · Combat Design · AI Systems</div>
+    <div class="card-title">Beast of the West <span class="card-wip">WIP</span></div>
+    <div class="card-type">Single Player — Third Person Action Adventure</div>
+    <div class="card-meta">
+      <div class="card-meta-item"><strong>Platform</strong>PC</div>
+      <div class="card-meta-item"><strong>Team</strong>3 People</div>
+      <div class="card-meta-item"><strong>Role</strong>Combat Designer</div>
+      <div class="card-meta-item"><strong>Playtime</strong>30 min</div>
+    </div>
+  </a>
+
+  <a href="off-air.html" class="project-card">
+    <span class="card-arrow">↗</span>
+    <div class="card-genre">UE5 · Combat Design · Technical Design</div>
+    <div class="card-title">Off Air</div>
+    <div class="card-type">Single Player — FPS Boomer Shooter</div>
+    <div class="card-meta">
+      <div class="card-meta-item"><strong>Platform</strong>PC</div>
+      <div class="card-meta-item"><strong>Team</strong>5 People</div>
+      <div class="card-meta-item"><strong>Role</strong>Technical Designer · Team Lead</div>
+      <div class="card-meta-item"><strong>Playtime</strong>1 Hour</div>
+    </div>
+  </a>
+
+  <a href="project-potion.html" class="project-card">
+    <span class="card-arrow">↗</span>
+    <div class="card-genre">UE5 · Player Character · Enemy Design</div>
+    <div class="card-title">Project Potion</div>
+    <div class="card-type">Single Player — 2D Side-scroller Adventure</div>
+    <div class="card-meta">
+      <div class="card-meta-item"><strong>Platform</strong>PC</div>
+      <div class="card-meta-item"><strong>Team</strong>7 People</div>
+      <div class="card-meta-item"><strong>Role</strong>Player Designer · Team Lead</div>
+      <div class="card-meta-item"><strong>Playtime</strong>10 min</div>
+    </div>
+  </a>
+
+  <a href="unsanctified.html" class="project-card">
+    <span class="card-arrow">↗</span>
+    <div class="card-genre">UE5 · Combat Design · Weapon Systems</div>
+    <div class="card-title">Unsanctified</div>
+    <div class="card-type">Single Player — TPS Action Adventure Soulslike</div>
+    <div class="card-meta">
+      <div class="card-meta-item"><strong>Platform</strong>PC</div>
+      <div class="card-meta-item"><strong>Team</strong>23 People</div>
+      <div class="card-meta-item"><strong>Role</strong>Combat Designer</div>
+      <div class="card-meta-item"><strong>Playtime</strong>2 Hours</div>
+    </div>
+  </a>
+
+  <a href="devils-in-the-details.html" class="project-card">
+    <span class="card-arrow">↗</span>
+    <div class="card-genre">UE5 · AI Design · Enemy Systems</div>
+    <div class="card-title">Devil's In The Details</div>
+    <div class="card-type">Single Player — Isometric Horde Shooter</div>
+    <div class="card-meta">
+      <div class="card-meta-item"><strong>Platform</strong>PC</div>
+      <div class="card-meta-item"><strong>Team</strong>5 People</div>
+      <div class="card-meta-item"><strong>Role</strong>Player &amp; Enemy Designer · Team Lead</div>
+      <div class="card-meta-item"><strong>Playtime</strong>10 min</div>
+    </div>
+  </a>
+
+</div>
+
+<section style="padding: 0;">
+  <div class="skills-strip">
+    <div class="skills-col">
+      <h3>Engine</h3>
+      <ul>
+        <li>Unreal Engine 5</li>
+        <li>Behavior Trees</li>
+        <li>State Trees / Machines</li>
+        <li>CommonUI</li>
+        <li>AI Perception System</li>
+        <li>Animation Blueprint</li>
+        <li>PaperZD</li>
+      </ul>
+    </div>
+    <div class="skills-col">
+      <h3>Design</h3>
+      <ul>
+        <li>Combat Systems Design</li>
+        <li>Enemy AI Design</li>
+        <li>Player Character (3 C's)</li>
+        <li>Level Flow / Encounter Design</li>
+        <li>Weapon & Damage Systems</li>
+        <li>Stealth Systems</li>
+        <li>Boss Design</li>
+      </ul>
+    </div>
+    <div class="skills-col">
+      <h3>Technical</h3>
+      <ul>
+        <li>C++ / Blueprint</li>
+        <li>Polymorphism / Interfaces</li>
+        <li>Editor Utility Widgets</li>
+        <li>Performance Optimization</li>
+        <li>Git / Jira / Confluence</li>
+        <li>Team Lead / Scrum</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section">
+  <h2>Let's Work Together</h2>
+  <p>logansmithnyan@gmail.com</p>
+  <div class="contact-links">
+    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-primary">Send Email</a>
+    <a href="https://www.linkedin.com/in/logan-smith-73a0a2197/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+    <a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="btn btn-ghost">Resume ↗</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Logan Smith</span>
+  <span>Combat / Technical Designer</span>
+</footer>
+
+</body>
+</html>

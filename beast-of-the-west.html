@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beast of the West — Logan Smith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Projects</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <a href="index.html" class="back-link">← All Projects</a>
+  <div class="project-eyebrow">UE5 · Combat Design · AI Systems</div>
+  <h1 class="project-title">Beast of<br>the West</h1>
+  <p class="project-tagline">A third-person action-adventure focused on Ghost of Tsushima-inspired stealth and combat AI — currently in active development.</p>
+  <div class="meta-bar">
+    <div class="meta-item"><span class="label">Platform</span><span class="value">PC</span></div>
+    <div class="meta-item"><span class="label">Engine</span><span class="value">Unreal Engine 5</span></div>
+    <div class="meta-item"><span class="label">Duration</span><span class="value">In Progress</span></div>
+    <div class="meta-item"><span class="label">Team Size</span><span class="value">3 People</span></div>
+    <div class="meta-item"><span class="label">Playtime</span><span class="value">30 min</span></div>
+    <div class="meta-item"><span class="label">Role</span><span class="value">Combat Designer</span></div>
+  </div>
+</div>
+
+<div class="project-content">
+
+  <div class="content-section">
+    <div class="wip-banner">⚠ Work in Progress — This project is actively being developed. More content will be added as milestones are reached.</div>
+
+    <h2 class="section-heading">Responsibilities</h2>
+    <ul class="resp-list">
+      <li>Designing and implementing gameplay systems</li>
+      <li>Utilized CommonUI for UI/UX for player character and gameplay loop</li>
+      <li>Designed and implemented enemy AI logic with a Behavior Tree & State Tree blend</li>
+      <li>Iterated on the 3 C's for the player character</li>
+      <li>Built a combat camera for 1v1 engagements for a cinematic feel, most notably in the boss battle</li>
+      <li>Updated/modified multiple traversal systems to be more scalable and reusable</li>
+      <li>Added a Stealth System and Parry/Poise System to add depth to combat</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Ghost-Inspired AI & Stealth System</h2>
+
+    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:0.05em; color:var(--accent); margin-bottom:16px;">Design Philosophy</h3>
+    <p class="body-text">Inspired by Ghost of Yotei and Ghost of Tsushima, the goal of this AI system is to create enemies that are challenging, predictable, and fair. The system is designed to give players readable openings to master their environment.</p>
+    <p class="body-text" style="margin-top:14px;">Under the hood, this is achieved by blending the performance of a custom C++ State Machine with the flexibility of Unreal Engine 5's AI Perception and Behavior Trees.</p>
+
+    <h3 style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:0.05em; color:var(--text); margin-top:40px; margin-bottom:16px;">Core Perception Mechanics</h3>
+    <p class="body-text">Standard Line of Sight (LOS) often feels binary and unfair in stealth games. To fix this, I added custom perception rules focused on the player experience:</p>
+
+    <div style="margin-top:24px; display:flex; flex-direction:column; gap:16px;">
+      <div class="callout">
+        <div class="callout-title">Vision Zones — Forgiving Margins</div>
+        <p>Suspicion doesn't fill at a flat rate. If a player is caught dead-center in an enemy's vision cone, they are spotted twice as fast. If caught in the periphery, suspicion fills at half speed. This gives players a crucial split-second to realize their mistake and duck back into cover.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-title">Vertical Blind Spots</div>
+        <p>To support vertical level design like rooftop assassinations, a custom height-limiter prevents enemies from unrealistically spotting players directly above or below them.</p>
+      </div>
+      <div class="callout">
+        <div class="callout-title">Responsive Hiding</div>
+        <p>A common bug in stealth games is AI staying locked onto a player who just jumped into cover. This system checks against what actor it currently perceives — so if a player drops into tall grass while being watched, the AI instantly breaks visual lock and investigates the last known location instead of "cheating".</p>
+      </div>
+    </div>
+
+    <div class="img-placeholder" style="height:280px;">
+      <div class="ph-label">Ghost Periphery Visualization</div>
+      <div class="ph-sub">Replace with: Ghost Periphery Visualization.png from Wix</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Enemy AI Flow & States</h2>
+    <p class="body-text">The AI operates on a tiered state machine, handling suspicion memory and threshold checks to create believable investigation patterns before passing control off to the combat state.</p>
+    <div class="img-placeholder" style="height:360px;">
+      <div class="ph-label">Enemy AI State Mind Map</div>
+      <div class="ph-sub">Replace with: Enemy AI State MindMap.png from Wix — hover states showed implementation details</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="project-footer">
+  <a href="index.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">← Back to Projects</a>
+  <a href="off-air.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">Next: Off Air →</a>
+</footer>
+
+</body>
+</html>

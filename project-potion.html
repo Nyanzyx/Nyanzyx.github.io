@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Potion — Logan Smith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Projects</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <a href="index.html" class="back-link">← All Projects</a>
+  <div class="project-eyebrow">UE5 · Player Character Design · Enemy Design · Team Lead</div>
+  <h1 class="project-title">Project<br>Potion</h1>
+  <p class="project-tagline">A 2.5D side-scroller inspired by Ghosts 'n Goblins, Hollow Knight, and Blasphemous. Cleanse a demon-overrun land using an arsenal of potions.</p>
+  <div class="meta-bar">
+    <div class="meta-item"><span class="label">Platform</span><span class="value">PC</span></div>
+    <div class="meta-item"><span class="label">Engine</span><span class="value">Unreal Engine 5</span></div>
+    <div class="meta-item"><span class="label">Duration</span><span class="value">3 Months</span></div>
+    <div class="meta-item"><span class="label">Team Size</span><span class="value">7 People</span></div>
+    <div class="meta-item"><span class="label">Playtime</span><span class="value">10 min</span></div>
+    <div class="meta-item"><span class="label">Roles</span><span class="value">Player Designer · Enemy Designer · Team Lead</span></div>
+  </div>
+</div>
+
+<div class="project-content">
+
+  <div class="content-section">
+    <h2 class="section-heading">Responsibilities</h2>
+    <ul class="resp-list">
+      <li>Designed a custom damage system with damage modifiers and effects</li>
+      <li>Utilized new animation states for 2D assets in a 3D engine via PaperZD</li>
+      <li>Designed and implemented enemy AI interactions and attacks</li>
+      <li>Designed and implemented all player character movement and animations</li>
+      <li>Managed Git repository and resolved collaboration errors</li>
+      <li>Assigned roles and tasks to team members</li>
+      <li>Managed Jira and Google Drive documentation</li>
+      <li>Built a custom projectile system used for all potions</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Bringing the Player to Life</h2>
+    <p class="body-text">With Ghosts 'n Goblins as the initial inspiration, early iterations struggled — projectiles couldn't travel far and traversal through levels was cumbersome. After revisiting the design, I drew additional inspiration from Hollow Knight and Blasphemous for their movement systems.</p>
+
+    <div class="callout" style="margin:24px 0;">
+      <div class="callout-title">Added Movement Mechanics</div>
+      <p>Dashing (no iframes — usable mid-air for dodging), Wall Jumping (required in specific areas, also an evasion option), and Wall Sliding (eases timing on wall jumps). The goal: give players more options than just run-and-jump to avoid attacks, similar to how Hollow Knight expands on Mario's basic movement.</p>
+    </div>
+
+    <p class="body-text">For the animation system, I used the PaperZD plugin to support sprite sheets — anything living is 2D, anything static is 3D. This changed how animation blueprints and state machines functioned, but I retained Animation Notifications for potion throwing, which was crucial for making the action feel fluid. Traditional locomotion animations were also added to prevent choppy travel.</p>
+
+    <div class="img-placeholder" style="height:260px;">
+      <div class="ph-label">Animation Blueprint — Player</div>
+      <div class="ph-sub">Replace with: AnimBP For Player.png from Wix</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Damage System</h2>
+    <p class="body-text">I studied Super Smash Bros and Hollow Knight to understand how they communicate damage to players. The research showed that sprite flickers and hit stops are the most impactful feedback tools.</p>
+    <p class="body-text" style="margin-top:14px;">The system supports three hit types — Stun, Knockback, and Regular — though prototyping kept all damage as Regular. I added a sprite flicker to indicate invulnerability frames post-hit, and a dynamic material color change that fades in and out based on hits. Combined, these achieve clear and readable player feedback.</p>
+
+    <div class="img-placeholder" style="height:260px;">
+      <div class="ph-label">Player Damage System Diagram</div>
+      <div class="ph-sub">Replace with: PlayerDamageSystem.png from Wix</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Enemy Design</h2>
+    <p class="body-text">I worked on the Base Enemy, the Imp, and the Boss. The base enemy class passes common functionality (health, damage responses, states) to all enemies, designed to be extensible so others could add onto it.</p>
+
+    <div class="enemy-grid">
+      <div class="enemy-card">
+        <div class="enemy-name">The Imp</div>
+        <div class="enemy-desc">A flying enemy that doesn't use the navmesh — instead uses UE's Perception Component to break from its patrol path and chase the player. Fires homing projectiles with a shoot animation that telegraphs downtime.</div>
+        <ul class="enemy-traits">
+          <li>Perception-based patrol-to-chase transition</li>
+          <li>Homing projectile with brief tracking — predictable with movement</li>
+          <li>Montage plays on shoot and reload for player readability</li>
+        </ul>
+      </div>
+
+      <div class="enemy-card">
+        <div class="enemy-name">The General (Boss)</div>
+        <div class="enemy-desc">A melee-type boss with clearly telegraphed attacks and phased difficulty escalation. Designed to force use of all movement mechanics and potions.</div>
+        <ul class="enemy-traits">
+          <li>Phase 1: Jump attacks + ground spikes to force movement</li>
+          <li>Phase 2: New ranged slam wave — surprise ranged option</li>
+          <li>Phase 3: 15% faster attacks, activates at 10% HP</li>
+          <li>Transition: Boss exits, spawns 5 minions — pacing reset</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:24px;">
+      <div class="callout-title">Design Reflection</div>
+      <p>In hindsight, the Phase 2 ranged attack was an unintended disruption — players assume a melee boss won't suddenly gain range. A short cutscene or telegraph moment before Phase 2 would introduce the new ability more gracefully rather than blindsiding the player.</p>
+    </div>
+
+    <div class="img-placeholder" style="height:240px;">
+      <div class="ph-label">Base Enemy Code + Game Screenshots</div>
+      <div class="ph-sub">Replace with: BaseEnemyCode.png and gameplay screenshots from Wix</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="project-footer">
+  <a href="off-air.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">← Off Air</a>
+  <a href="unsanctified.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">Next: Unsanctified →</a>
+</footer>
+
+</body>
+</html>

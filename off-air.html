@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Off Air — Logan Smith</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project-style.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">LOGAN <span>SMITH</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Projects</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="https://46e893d5-50cf-40f7-a3d0-64df644efd2d.filesusr.com/ugd/50c0f4_ea0fd42890f64529af179328ad628935.pdf" target="_blank" class="cta">Resume ↗</a></li>
+  </ul>
+</nav>
+
+<div class="project-hero">
+  <a href="index.html" class="back-link">← All Projects</a>
+  <div class="project-eyebrow">UE5 · Technical Design · Combat Design · Team Lead</div>
+  <h1 class="project-title">Off Air</h1>
+  <p class="project-tagline">A fast-paced boomer shooter inspired by ULTRAKILL. Play as a robot competing in a deadly gameshow — weapon swapping and high-mobility combat are your tools for survival.</p>
+  <div class="meta-bar">
+    <div class="meta-item"><span class="label">Platform</span><span class="value">PC</span></div>
+    <div class="meta-item"><span class="label">Engine</span><span class="value">Unreal Engine 5</span></div>
+    <div class="meta-item"><span class="label">Duration</span><span class="value">4 Months</span></div>
+    <div class="meta-item"><span class="label">Team Size</span><span class="value">5 People</span></div>
+    <div class="meta-item"><span class="label">Playtime</span><span class="value">1 Hour</span></div>
+    <div class="meta-item"><span class="label">Roles</span><span class="value">Technical Designer · Combat Designer · Team Lead</span></div>
+  </div>
+</div>
+
+<div class="project-content">
+
+  <div class="content-section">
+    <h2 class="section-heading">Responsibilities</h2>
+    <ul class="resp-list">
+      <li>Designed and implemented a Limb Based Damage System with damage modifiers like headshots</li>
+      <li>Utilized Animation Notifies to set up animation-based attacks for player and enemies</li>
+      <li>Designed and implemented all Enemy AI interactions and attacks</li>
+      <li>Designed and implemented all Player Character movement and animations</li>
+      <li>Handled performance optimization tasks for certain systems</li>
+      <li>Utilized Editor Utility Widgets to create tools for other designers</li>
+    </ul>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Player Movement</h2>
+    <p class="body-text">With ULTRAKILL as the base reference, player movement and feel are a huge component in allowing players to feel empowered. Two of our design pillars were Push-Forward Combat and Free Form Movement, so I replicated ULTRAKILL's movement as closely as possible with key changes in how certain actions chain together.</p>
+    <p class="body-text" style="margin-top:14px;">The movement suite includes Wall Jumping, Wall Clinging, Sliding, Dashing, Ground Pound, and standard Walking and Jumping. These mechanics are all necessary in different situations — traversal becomes both a defensive and offensive option in combat.</p>
+    <div class="img-placeholder" style="height:240px;">
+      <div class="ph-label">Movement Showcase Video</div>
+      <div class="ph-sub">Replace with: gameplay video embed — wall jumping, dashing, ground pound demo</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">The Parry System</h2>
+    <p class="body-text">Creating a projectile parry that felt good to players was extremely challenging, particularly when balancing across multiple gameplay aspects. The key early decision was between anticipation-based vs. reaction-based input.</p>
+
+    <div class="callout" style="margin-top:24px;">
+      <div class="callout-title">Design Decision: Reaction-Based Parry</div>
+      <p>We settled on reaction-based — the feedback is instant the moment the player presses the keybind. This lowers the barrier to entry while making the mechanic feel better, since the reward is immediate.</p>
+    </div>
+
+    <p class="body-text" style="margin-top:24px;">Each projectile required individual tuning. I used polymorphism to pass parry functionality down to child projectile classes — all projectiles inherit the parry code from the parent, so I only needed to tweak numbers and scale sizes per instance.</p>
+    <p class="body-text" style="margin-top:14px;">I also used Blueprint Interfaces to send messages from the player to projectiles. The alternative — casting directly to each projectile class — would have caused performance issues at scale.</p>
+
+    <div class="img-placeholder" style="height:280px;">
+      <div class="ph-label">Parry System Screenshots</div>
+      <div class="ph-sub">Replace with: parry blueprint screenshots from Wix (3 images)</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Enemy Design</h2>
+    <p class="body-text">Enemies are the main obstacle for completing levels. I wanted each enemy to feel readable individually, but create dramatically different encounter dynamics when combined. They're designed to appear simple one-on-one, but create cascading pressure in multi-enemy situations.</p>
+
+    <div class="callout" style="margin:24px 0;">
+      <div class="callout-title">Architecture: Base Enemy Class</div>
+      <p>I built a base class holding all shared major functions — Combat Manager (animation-tied attacks and states), Health Component (universal for player and enemies), and State Manager (current state tracking with component-level checks).</p>
+    </div>
+
+    <div class="enemy-grid">
+      <div class="enemy-card">
+        <div class="enemy-name">The Chaser</div>
+        <div class="enemy-desc">A simple path-follower that closes distance and leaps when in range. Low health but becomes a genuine threat in groups of 6+, clumping to overwhelm players who don't manage positioning.</div>
+        <ul class="enemy-traits">
+          <li>Instant kill on headshot — rewards accuracy</li>
+          <li>Slightly faster than the player — forces directional changes</li>
+          <li>Designed to be kited and handled last</li>
+          <li>Verticality is the best counter</li>
+        </ul>
+      </div>
+
+      <div class="enemy-card">
+        <div class="enemy-name">Tall Terry</div>
+        <div class="enemy-desc">A ranged stationary enemy that maintains LOS at any distance or height. Primary target priority in early levels — forces players to hop from Terry to Terry to clear ranged threats first.</div>
+        <ul class="enemy-traits">
+          <li>Only enemy to be staggered on hit</li>
+          <li>Tap with damage to reset attack and focus elsewhere</li>
+          <li>Useful for level design leading lines</li>
+          <li>Slightly larger health pool than Chasers</li>
+        </ul>
+      </div>
+
+      <div class="enemy-card">
+        <div class="enemy-name">Gunter</div>
+        <div class="enemy-desc">A flying enemy that fires a minigun-style spread. On death, turns itself into a homing projectile — forcing a dodge or parry decision even after the kill.</div>
+        <ul class="enemy-traits">
+          <li>Large hitbox — easy to hit, but high health compensates</li>
+          <li>No headshot point — can't be cheesed by accuracy</li>
+          <li>Projectiles avoidable at base movement speed</li>
+          <li>Death projectile adds a post-kill skill check</li>
+        </ul>
+      </div>
+
+      <div class="enemy-card">
+        <div class="enemy-name">BCSD</div>
+        <div class="enemy-desc">Ben Special Class Dover — a ground unit difficulty spike. Predicts player velocity to land ranged hits on fast-moving targets. Adds a melee attack at close range, forcing a weave-in-and-out counter rhythm.</div>
+        <ul class="enemy-traits">
+          <li>Velocity-prediction ranged attack</li>
+          <li>Rest window after each attack — capitalize on it</li>
+          <li>Close range triggers melee — stay mid-range</li>
+          <li>Large health pool — the fight takes commitment</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="img-placeholder" style="height:240px; margin-top:32px;">
+      <div class="ph-label">Enemy Showcase Screenshots</div>
+      <div class="ph-sub">Replace with: Chaser, Tall Terry, Gunter, BCSD screenshots from Wix</div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="project-footer">
+  <a href="index.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">← Back to Projects</a>
+  <a href="project-potion.html" style="color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.1em;">Next: Project Potion →</a>
+</footer>
+
+</body>
+</html>
