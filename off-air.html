@@ -7,6 +7,167 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project-style.css">
+<style>
+  /* Project video box */
+  .project-video-box {
+    margin-top: 32px;
+  }
+  .project-video-box iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 1px solid var(--purple);
+    display: block;
+  }
+  .video-ph {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--off);
+    border: 1px solid var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .video-ph-label {
+    font-size: 13px;
+    color: var(--light);
+    letter-spacing: 0.06em;
+  }
+  .video-ph-sub {
+    font-size: 11px;
+    color: var(--rule);
+  }
+
+  /* Enemy grid override — full width single column */
+  .enemy-section .enemy-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Enemy card media strip */
+  .enemy-card-media {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .enemy-video-box {
+    flex: 1;
+    min-width: 0;
+  }
+  .enemy-video-box video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    display: block;
+    background: var(--black);
+  }
+  .enemy-reel {
+    flex: 1;
+    min-width: 0;
+  }
+  .media-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  .media-ph {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--black);
+    border: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .media-ph span {
+    font-size: 11px;
+    color: var(--rule);
+  }
+  .media-ph code {
+    font-size: 10px;
+    color: var(--rule);
+    opacity: 0.7;
+  }
+  .enemy-video-box iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: none;
+    display: block;
+  }
+
+  /* Image reel */
+  .reel-track {
+    position: relative;
+    width: 100%;
+  }
+  .reel-slide {
+    display: none;
+  }
+  .reel-slide.active {
+    display: block;
+  }
+  .reel-slide img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+  .reel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .reel-btn {
+    background: none;
+    border: 1px solid var(--purple);
+    color: var(--white);
+    cursor: pointer;
+    padding: 5px 13px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .reel-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .reel-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .reel-dot {
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--purple);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    display: block;
+    flex-shrink: 0;
+  }
+  .reel-dot.active {
+    background: var(--purple);
+  }
+  .reel-dot:hover {
+    border-color: var(--green);
+  }
+
+  @media (max-width: 768px) {
+    .enemy-card-media {
+      flex-direction: column;
+    }
+  }
+</style>
 </head>
 <body>
 <nav>
@@ -31,6 +192,10 @@
     <div class="meta-item"><span class="label">Playtime</span><span class="value">1 Hour</span></div>
     <div class="meta-item"><span class="label">Roles</span><span class="value">Technical Designer · Combat Designer · Team Lead</span></div>
   </div>
+
+  <div class="project-video-box">
+    <iframe src="https://www.youtube.com/embed/nkuwIIMtBbM?autoplay=1&mute=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
 </div>
 
 <div class="project-content">
@@ -49,20 +214,20 @@
 
   <div class="content-section">
     <h2 class="section-heading">Player Movement</h2>
-    <p class="body-text">With ULTRAKILL as the reference, movement and feel are a core part of the empowerment fantasy. Two design pillars — Push-Forward Combat and Free Form Movement — drove the decision to replicate ULTRAKILL's movement with key changes in how actions chain together.</p>
-    <p class="body-text">The full movement suite: Wall Jumping, Wall Clinging, Sliding, Dashing, Ground Pound, and standard Walking and Jumping. Each mechanic serves both a defensive and offensive function during combat.</p>
+    <p class="body-text">With ULTRAKILL as the reference game, player movement and feel are a core component in allowing the player to feel empowered throughout the entire experience. Two design pillars — Push-Forward Combat and Free Form Movement — drove the decision to replicate ULTRAKILL's movement suite with key changes in how actions chain together.</p>
+    <p class="body-text">The full movement suite implemented: Wall Jumping, Wall Clinging, Sliding, Dashing, Ground Pound, and traditional Walking and Jumping. Each mechanic is designed to serve both a defensive and offensive function during combat — giving the player tools to reposition and re-engage simultaneously.</p>
     <div class="img-placeholder" style="height:220px;">
       <div class="ph-l">Movement Showcase</div>
-      <div class="ph-s">Embed gameplay video or screenshot here</div>
+      <div class="ph-s">Embed gameplay video here</div>
     </div>
   </div>
 
   <div class="content-section">
     <h2 class="section-heading">The Parry System</h2>
-    <p class="body-text">Creating a projectile parry that felt good required balancing across multiple gameplay axes simultaneously. The first key design decision: anticipation-based vs. reaction-based.</p>
+    <p class="body-text">Creating a projectile parry that felt good required balancing across multiple gameplay axes simultaneously. The first key design decision was whether the system should be anticipation-based or reaction-based.</p>
     <div class="callout">
       <div class="callout-title">Design Decision — Reaction-Based</div>
-      <p>Reaction-based won. The feedback is instant the moment the player presses the keybind — lower barrier to entry, better feel, and the reward loop is tight. Anticipation-based required prediction too early, reducing accessibility without meaningful skill depth.</p>
+      <p>Reaction-based won. The feedback is instant the moment the player presses the keybind — lower barrier to entry, better feel, and the reward loop is tight. Anticipation-based required the player to predict and commit too early, reducing accessibility without adding meaningful skill depth.</p>
     </div>
     <p class="body-text">Individual tuning per projectile was handled via polymorphism — all projectiles inherit parry code from the parent class, reducing each new projectile to number-tweaking and size scaling. Blueprint Interfaces handled player-to-projectile communication to avoid expensive casting chains at scale.</p>
     <div class="img-placeholder" style="height:260px;">
@@ -71,51 +236,264 @@
     </div>
   </div>
 
-  <div class="content-section">
-    <h2 class="section-heading">Enemy Design</h2>
-    <p class="body-text">All enemies share a base class with three core components: Combat Manager (animation-tied attacks and states), Health Component (universal across player and enemies), and State Manager (current state tracking). Each enemy is individually readable but creates emergent complexity in multi-enemy encounters.</p>
+  <div class="content-section enemy-section">
+    <h2 class="section-heading">How the Enemies Were Brought to Life</h2>
+    <p class="body-text">All enemies share a base class built around three core components: a Combat Manager that ties animation notifies to attacks and manages state transitions, a Health Component universal across both player and enemies handling all damage, healing, and death logic, and a State Manager that tracks the enemy's current behavioral state. Each enemy is individually readable but creates emergent complexity when combined in multi-enemy encounters.</p>
 
     <div class="enemy-grid">
+
       <div class="enemy-card">
         <div class="enemy-name">Chaser</div>
-        <div class="enemy-desc">Paths toward the player and leaps when in range. Low health fodder that becomes a real threat in groups — clumps when 6+ are present.</div>
+        <div class="enemy-desc">Paths toward the player and leaps when in range. Low health fodder that becomes a real threat in groups — clumps when 6+ are present and can overwhelm a player who ignores them.</div>
         <ul class="enemy-traits">
           <li>Instant kill on headshot — rewards accuracy</li>
           <li>Slightly faster than the player — forces direction changes</li>
           <li>Designed to be kited and deprioritized</li>
           <li>Verticality is the primary counter</li>
         </ul>
+        <div class="enemy-card-media">
+          <div class="enemy-video-box">
+            <div class="media-label">Gameplay Video</div>
+            <!-- Replace with: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+            <video autoplay loop muted playsinline>
+              <source src="videos/offair/chaser-gameplay.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="enemy-reel">
+            <div class="media-label">Screenshots</div>
+            <div class="reel-track">
+              <div class="reel-slide active">
+                <img src="images/offair/chaser-1.png" alt="description">
+              </div>
+              <div class="reel-slide">
+                <img src="images/offair/chaser-2.png" alt="description">
+              </div>
+              <div class="reel-slide">
+                <img src="images/offair/chaser-3.png" alt="description">
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+              <div class="reel-dots">
+                <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+              </div>
+              <button class="reel-btn reel-next" aria-label="Next">→</button>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="enemy-card">
         <div class="enemy-name">Tall Terry</div>
-        <div class="enemy-desc">Ranged-only. Maintains LOS at any distance or height, moving only to reacquire. Forces players to clear ranged threats first.</div>
+        <div class="enemy-desc">Ranged-only. Maintains line of sight at any distance or height, moving only to reacquire. Forces players to clear ranged threats first or constantly deal with incoming fire.</div>
         <ul class="enemy-traits">
           <li>Only enemy that staggers on hit</li>
-          <li>Tap with any damage to reset the attack</li>
+          <li>Any damage resets the attack — reward for consistent aggression</li>
           <li>Useful anchor for level design leading lines</li>
           <li>Larger health pool than Chasers</li>
         </ul>
+        <div class="enemy-card-media">
+          <div class="enemy-video-box">
+            <div class="media-label">Gameplay Video</div>
+            <div class="media-ph">
+              <span>Embed video here</span>
+            </div>
+          </div>
+          <div class="enemy-reel">
+            <div class="media-label">Screenshots</div>
+            <div class="reel-track">
+              <div class="reel-slide active">
+                <div class="media-ph"><span>Image 1</span><code>images/tall-terry-1.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 2</span><code>images/tall-terry-2.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 3</span><code>images/tall-terry-3.png</code></div>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+              <div class="reel-dots">
+                <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+              </div>
+              <button class="reel-btn reel-next" aria-label="Next">→</button>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="enemy-card">
         <div class="enemy-name">Gunter</div>
-        <div class="enemy-desc">A flying minigun platform. On death, becomes a homing projectile — forcing a dodge or parry even after the kill.</div>
+        <div class="enemy-desc">A flying minigun platform. On death, becomes a homing projectile — forcing a dodge or parry even after the kill. The threat doesn't end when the health bar does.</div>
         <ul class="enemy-traits">
           <li>Large hitbox offset by high health</li>
-          <li>No headshot point — can't be cheesed</li>
+          <li>No headshot point — can't be cheesed with precision</li>
           <li>Projectiles avoidable at base movement speed</li>
           <li>Death projectile adds a post-kill skill check</li>
         </ul>
+        <div class="enemy-card-media">
+          <div class="enemy-video-box">
+            <div class="media-label">Gameplay Video</div>
+            <div class="media-ph">
+              <span>Embed video here</span>
+            </div>
+          </div>
+          <div class="enemy-reel">
+            <div class="media-label">Screenshots</div>
+            <div class="reel-track">
+              <div class="reel-slide active">
+                <div class="media-ph"><span>Image 1</span><code>images/gunter-1.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 2</span><code>images/gunter-2.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 3</span><code>images/gunter-3.png</code></div>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+              <div class="reel-dots">
+                <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+              </div>
+              <button class="reel-btn reel-next" aria-label="Next">→</button>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="enemy-card">
         <div class="enemy-name">BCSD</div>
-        <div class="enemy-desc">Ben Special Class Dover. Predicts player velocity for ranged hits. Adds melee at close range — forces a weave-in-and-out counter rhythm.</div>
+        <div class="enemy-desc">Ben Special Class Dover. Predicts player velocity for ranged hits. Adds melee at close range — forcing a weave-in-and-out counter rhythm that demands spatial awareness.</div>
         <ul class="enemy-traits">
           <li>Velocity-prediction on ranged attack</li>
-          <li>Rest window after each attack — exploit it</li>
+          <li>Rest window after each attack — exploit the opening</li>
           <li>Close distance triggers melee — stay mid-range</li>
           <li>Large health pool — the fight takes commitment</li>
         </ul>
+        <div class="enemy-card-media">
+          <div class="enemy-video-box">
+            <div class="media-label">Gameplay Video</div>
+            <div class="media-ph">
+              <span>Embed video here</span>
+            </div>
+          </div>
+          <div class="enemy-reel">
+            <div class="media-label">Screenshots</div>
+            <div class="reel-track">
+              <div class="reel-slide active">
+                <div class="media-ph"><span>Image 1</span><code>images/bcsd-1.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 2</span><code>images/bcsd-2.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 3</span><code>images/bcsd-3.png</code></div>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+              <div class="reel-dots">
+                <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+              </div>
+              <button class="reel-btn reel-next" aria-label="Next">→</button>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="enemy-card">
+        <div class="enemy-name">ROXANNE</div>
+        <div class="enemy-desc">The boss. Moves quickly and aggressively, but periodically enters a taunt phase — standing still and taunting the player without attacking. This creates a deliberate damage window that rewards aggression and balances the large health pool.</div>
+        <ul class="enemy-traits">
+          <li>High mobility — must be tracked throughout the arena</li>
+          <li>Taunt phase: boss stands still, stops attacking</li>
+          <li>Taunt is the designed primary damage window</li>
+          <li>Large health pool balanced by frequent exploit windows</li>
+        </ul>
+        <div class="enemy-card-media">
+          <div class="enemy-video-box">
+            <div class="media-label">Gameplay Video</div>
+            <div class="media-ph">
+              <span>Embed video here</span>
+            </div>
+          </div>
+          <div class="enemy-reel">
+            <div class="media-label">Screenshots</div>
+            <div class="reel-track">
+              <div class="reel-slide active">
+                <div class="media-ph"><span>Image 1</span><code>images/roxanne-1.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 2</span><code>images/roxanne-2.png</code></div>
+              </div>
+              <div class="reel-slide">
+                <div class="media-ph"><span>Image 3</span><code>images/roxanne-3.png</code></div>
+              </div>
+            </div>
+            <div class="reel-controls">
+              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+              <div class="reel-dots">
+                <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+              </div>
+              <button class="reel-btn reel-next" aria-label="Next">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Performance Optimization</h2>
+    <p class="body-text">With a fast-paced shooter generating high counts of projectiles, enemies, and overlapping systems simultaneously, performance became a real concern during development. The Unreal Insights Tool was used to identify bottlenecks and profile which systems were generating the most overhead during intensive combat sequences.</p>
+    <p class="body-text">Two systems were redesigned specifically to address performance: Health Orbs and Weapon Swapping.</p>
+
+    <h2 class="section-heading" style="font-size:17px; margin-top: 32px;">Health Orbs</h2>
+    <p class="body-text">The original health recovery design was proximity-based — the player passively healed when standing near certain zones. This was replaced with a pip/orb drop system: enemies drop health orbs on death that the player must collect. Beyond the gameplay improvement in feel and intentionality, this introduced a potential performance problem in large encounters where many enemies could die in a short window.</p>
+    <div class="callout">
+      <div class="callout-title">Solution — Object Pool of 25</div>
+      <p>An object pool of 25 health orbs caps the live count in the world at any point. When the pool is exhausted, the oldest active orb is reclaimed and repositioned rather than spawning a new actor. This keeps actor count stable regardless of how many enemies die at once.</p>
+    </div>
+    <div class="img-placeholder" style="height:240px;">
+      <div class="ph-l">Health Orbs — Blueprint / Gameplay Screenshot</div>
+      <div class="ph-s">images/off-air-health-orbs.png</div>
+    </div>
+
+    <h2 class="section-heading" style="font-size:17px; margin-top: 40px;">Weapon Swapping</h2>
+    <p class="body-text">Weapon swapping required tracking ammo for stowed weapons — weapons not currently held by the player. The naive approach of spawning separate actors for each stowed weapon to track their individual ammo state would have added persistent overhead for every weapon slot.</p>
+    <div class="callout">
+      <div class="callout-title">Solution — Separate Tracking Actor with Object Pooling</div>
+      <p>A single separate actor is responsible for all stowed weapon data. It tracks ammo counts per-weapon without requiring individual weapon actors to exist in the world while stowed. Combined with object pooling on the weapon actors themselves, the system avoids unnecessary spawn/destroy cycles during swaps.</p>
+    </div>
+    <div class="img-placeholder" style="height:240px;">
+      <div class="ph-l">Weapon Swapping — Blueprint Screenshot</div>
+      <div class="ph-s">images/off-air-weapon-swap.png</div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-heading">Enemy Wave Manager Tool</h2>
+    <p class="body-text">Wave-based combat required a system for designers to configure which enemies spawn, when they spawn, and in what quantity — per wave, per encounter. The initial implementation used nested arrays configured directly in Blueprints, which worked technically but was difficult for other designers to navigate and error-prone to edit.</p>
+    <div class="callout">
+      <div class="callout-title">Solution — Editor Widget Blueprint (EWBP)</div>
+      <p>A custom Editor Utility Widget replaced the raw array interface with a purpose-built tool. Designers can now navigate directly to wave managers from within the widget, control per-wave startup timing, replace enemy spawn points while preserving their existing settings, and set custom health values per individual enemy instance — all without touching Blueprint arrays directly.</p>
+    </div>
+    <div class="img-placeholder" style="height:300px;">
+      <div class="ph-l">Wave Manager Tool — Editor Widget Screenshot</div>
+      <div class="ph-s">images/off-air-wave-manager.png</div>
     </div>
   </div>
 
@@ -125,5 +503,29 @@
   <a href="index.html">← All Work</a>
   <a href="project-potion.html">Project Potion →</a>
 </div>
+
+<script>
+  document.querySelectorAll('.enemy-reel').forEach(function(reel) {
+    var slides = reel.querySelectorAll('.reel-slide');
+    var dots = reel.querySelectorAll('.reel-dot');
+    var prev = reel.querySelector('.reel-prev');
+    var next = reel.querySelector('.reel-next');
+    var current = 0;
+
+    function show(index) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    if (prev) prev.addEventListener('click', function() { show(current - 1); });
+    if (next) next.addEventListener('click', function() { show(current + 1); });
+    dots.forEach(function(dot, i) {
+      dot.addEventListener('click', function() { show(i); });
+    });
+  });
+</script>
 </body>
 </html>

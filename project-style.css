@@ -129,7 +129,7 @@ nav {
 
 .body-text {
   font-size: 15px; color: var(--light);
-  line-height: 1.8; max-width: 680px;
+  line-height: 1.8;
 }
 .body-text + .body-text { margin-top: 14px; }
 
