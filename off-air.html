@@ -67,6 +67,12 @@
     flex: 1;
     min-width: 0;
   }
+  .reel--fit .reel-slide img {
+  width: 90%;
+  margin: 0 auto;
+  aspect-ratio: 16/9;
+  object-fit: contain;
+}
   .media-label {
     font-size: 10px;
     font-weight: 500;
@@ -216,10 +222,9 @@
     <h2 class="section-heading">Player Movement</h2>
     <p class="body-text">With ULTRAKILL as the reference game, player movement and feel are a core component in allowing the player to feel empowered throughout the entire experience. Two design pillars — Push-Forward Combat and Free Form Movement — drove the decision to replicate ULTRAKILL's movement suite with key changes in how actions chain together.</p>
     <p class="body-text">The full movement suite implemented: Wall Jumping, Wall Clinging, Sliding, Dashing, Ground Pound, and traditional Walking and Jumping. Each mechanic is designed to serve both a defensive and offensive function during combat — giving the player tools to reposition and re-engage simultaneously.</p>
-    <div class="img-placeholder" style="height:220px;">
-      <div class="ph-l">Movement Showcase</div>
-      <div class="ph-s">Embed gameplay video here</div>
-    </div>
+    <video controls autoplay loop muted playsinline style="width:100%; display:block;">
+      <source src="videos/offair/PlayerMovement.mp4" type="video/mp4">
+    </video>
   </div>
 
   <div class="content-section">
@@ -230,9 +235,27 @@
       <p>Reaction-based won. The feedback is instant the moment the player presses the keybind — lower barrier to entry, better feel, and the reward loop is tight. Anticipation-based required the player to predict and commit too early, reducing accessibility without adding meaningful skill depth.</p>
     </div>
     <p class="body-text">Individual tuning per projectile was handled via polymorphism — all projectiles inherit parry code from the parent class, reducing each new projectile to number-tweaking and size scaling. Blueprint Interfaces handled player-to-projectile communication to avoid expensive casting chains at scale.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Parry System — Blueprint Screenshots</div>
-      <div class="ph-s">images/off-air-parry.png</div>
+    <div class="enemy-reel reel--fit" style="margin-top: 28px;">
+      <div class="reel-track">
+        <div class="reel-slide active">
+          <img src="images/offair/ParryBP_1.png" alt="description">
+        </div>
+        <div class="reel-slide">
+          <img src="images/offair/ParryBP_2.png" alt="description">
+        </div>
+        <div class="reel-slide">
+          <img src="images/offair/ParryBP_3.png" alt="description">
+        </div>
+      </div>
+      <div class="reel-controls">
+        <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+        <div class="reel-dots">
+          <span class="reel-dot active"></span>
+          <span class="reel-dot"></span>
+          <span class="reel-dot"></span>
+        </div>
+        <button class="reel-btn reel-next" aria-label="Next">→</button>
+      </div>
     </div>
   </div>
 
@@ -297,21 +320,21 @@
         <div class="enemy-card-media">
           <div class="enemy-video-box">
             <div class="media-label">Gameplay Video</div>
-            <div class="media-ph">
-              <span>Embed video here</span>
-            </div>
+            <video autoplay loop muted playsinline>
+              <source src="videos/offair/TerryGameplay.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="enemy-reel">
             <div class="media-label">Screenshots</div>
             <div class="reel-track">
               <div class="reel-slide active">
-                <div class="media-ph"><span>Image 1</span><code>images/tall-terry-1.png</code></div>
+                <img src="images/offair/TallTerryInfo.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 2</span><code>images/tall-terry-2.png</code></div>
+                <img src="images/offair/TallTerryBT.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 3</span><code>images/tall-terry-3.png</code></div>
+                <img src="images/offair/TallTerryAtk.png" alt="description">
               </div>
             </div>
             <div class="reel-controls">
@@ -339,21 +362,21 @@
         <div class="enemy-card-media">
           <div class="enemy-video-box">
             <div class="media-label">Gameplay Video</div>
-            <div class="media-ph">
-              <span>Embed video here</span>
-            </div>
+            <video autoplay loop muted playsinline>
+              <source src="videos/offair/GunterGameplay.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="enemy-reel">
             <div class="media-label">Screenshots</div>
             <div class="reel-track">
               <div class="reel-slide active">
-                <div class="media-ph"><span>Image 1</span><code>images/gunter-1.png</code></div>
+                <img src="images/offair/GunterInfo.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 2</span><code>images/gunter-2.png</code></div>
+                <img src="images/offair/GunterBT.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 3</span><code>images/gunter-3.png</code></div>
+                <img src="images/offair/GunterAtk.png" alt="description">
               </div>
             </div>
             <div class="reel-controls">
@@ -370,8 +393,8 @@
       </div>
 
       <div class="enemy-card">
-        <div class="enemy-name">BCSD</div>
-        <div class="enemy-desc">Ben Special Class Dover. Predicts player velocity for ranged hits. Adds melee at close range — forcing a weave-in-and-out counter rhythm that demands spatial awareness.</div>
+        <div class="enemy-name">Ben Special Class Dover</div>
+        <div class="enemy-desc">B.S.C.D Predicts player velocity for ranged hits. Adds melee at close range — forcing a weave-in-and-out counter rhythm that demands spatial awareness.</div>
         <ul class="enemy-traits">
           <li>Velocity-prediction on ranged attack</li>
           <li>Rest window after each attack — exploit the opening</li>
@@ -381,28 +404,24 @@
         <div class="enemy-card-media">
           <div class="enemy-video-box">
             <div class="media-label">Gameplay Video</div>
-            <div class="media-ph">
-              <span>Embed video here</span>
-            </div>
+            <video autoplay loop muted playsinline>
+              <source src="videos/offair/BenDoverGameplay.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="enemy-reel">
             <div class="media-label">Screenshots</div>
             <div class="reel-track">
               <div class="reel-slide active">
-                <div class="media-ph"><span>Image 1</span><code>images/bcsd-1.png</code></div>
+                <img src="images/offair/BenDoverInfo.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 2</span><code>images/bcsd-2.png</code></div>
-              </div>
-              <div class="reel-slide">
-                <div class="media-ph"><span>Image 3</span><code>images/bcsd-3.png</code></div>
+                <img src="images/offair/BenDoverBT.png" alt="description">
               </div>
             </div>
             <div class="reel-controls">
               <button class="reel-btn reel-prev" aria-label="Previous">←</button>
               <div class="reel-dots">
                 <span class="reel-dot active"></span>
-                <span class="reel-dot"></span>
                 <span class="reel-dot"></span>
               </div>
               <button class="reel-btn reel-next" aria-label="Next">→</button>
@@ -423,27 +442,39 @@
         <div class="enemy-card-media">
           <div class="enemy-video-box">
             <div class="media-label">Gameplay Video</div>
-            <div class="media-ph">
-              <span>Embed video here</span>
-            </div>
+            <video autoplay loop muted playsinline>
+              <source src="videos/offair/RoxanneBossFight.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="enemy-reel">
             <div class="media-label">Screenshots</div>
             <div class="reel-track">
               <div class="reel-slide active">
-                <div class="media-ph"><span>Image 1</span><code>images/roxanne-1.png</code></div>
+                <img src="images/offair/ROXANNE_Info.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 2</span><code>images/roxanne-2.png</code></div>
+                <img src="images/offair/ROXANNE_BT1.png" alt="description">
               </div>
               <div class="reel-slide">
-                <div class="media-ph"><span>Image 3</span><code>images/roxanne-3.png</code></div>
+                <img src="images/offair/ROXANNE_BT2.png" alt="description">
+              </div>
+              <div class="reel-slide">
+                <img src="images/offair/ROXANNE_BT3.png" alt="description">
+              </div>
+              <div class="reel-slide">
+                <img src="images/offair/ROXANNE_BT4.png" alt="description">
+              </div>
+              <div class="reel-slide">
+                <img src="images/offair/ROXANNE_WPN.png" alt="description">
               </div>
             </div>
             <div class="reel-controls">
-              <button class="reel-btn reel-prev" aria-label="Previous">←</button>
+            <button class="reel-btn reel-prev" aria-label="Previous">←</button>
               <div class="reel-dots">
                 <span class="reel-dot active"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
+                <span class="reel-dot"></span>
                 <span class="reel-dot"></span>
                 <span class="reel-dot"></span>
               </div>
@@ -467,9 +498,13 @@
       <div class="callout-title">Solution — Object Pool of 25</div>
       <p>An object pool of 25 health orbs caps the live count in the world at any point. When the pool is exhausted, the oldest active orb is reclaimed and repositioned rather than spawning a new actor. This keeps actor count stable regardless of how many enemies die at once.</p>
     </div>
-    <div class="img-placeholder" style="height:240px;">
-      <div class="ph-l">Health Orbs — Blueprint / Gameplay Screenshot</div>
-      <div class="ph-s">images/off-air-health-orbs.png</div>
+    <div style="display:flex; gap:16px; margin-top:28px;">
+      <div style="flex:1; min-width:0; aspect-ratio:16/9; overflow:hidden;">
+        <video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; display:block;"><source src="videos/offair/HealingOrbGameplay.mp4" type="video/mp4"></video>
+      </div>
+      <div style="flex:1; min-width:0; aspect-ratio:16/9; overflow:hidden;">
+        <img src="images/offair/HealingOrb.png" alt="Health Orbs Visual" style="width:100%; height:100%; object-fit:cover; display:block;">
+      </div>
     </div>
 
     <h2 class="section-heading" style="font-size:17px; margin-top: 40px;">Weapon Swapping</h2>
@@ -478,10 +513,7 @@
       <div class="callout-title">Solution — Separate Tracking Actor with Object Pooling</div>
       <p>A single separate actor is responsible for all stowed weapon data. It tracks ammo counts per-weapon without requiring individual weapon actors to exist in the world while stowed. Combined with object pooling on the weapon actors themselves, the system avoids unnecessary spawn/destroy cycles during swaps.</p>
     </div>
-    <div class="img-placeholder" style="height:240px;">
-      <div class="ph-l">Weapon Swapping — Blueprint Screenshot</div>
-      <div class="ph-s">images/off-air-weapon-swap.png</div>
-    </div>
+      <img src="images/offair/Weapon Handler.png" alt="Weapon Handler" style="width:90%; display:block; margin:0 auto;">
   </div>
 
   <div class="content-section">
@@ -491,10 +523,7 @@
       <div class="callout-title">Solution — Editor Widget Blueprint (EWBP)</div>
       <p>A custom Editor Utility Widget replaced the raw array interface with a purpose-built tool. Designers can now navigate directly to wave managers from within the widget, control per-wave startup timing, replace enemy spawn points while preserving their existing settings, and set custom health values per individual enemy instance — all without touching Blueprint arrays directly.</p>
     </div>
-    <div class="img-placeholder" style="height:300px;">
-      <div class="ph-l">Wave Manager Tool — Editor Widget Screenshot</div>
-      <div class="ph-s">images/off-air-wave-manager.png</div>
-    </div>
+    <img src="images/offair/EnemyRoomWidget.png" alt="Weapon Handler" style="width:90%; display:block; margin:0 auto;">
   </div>
 
 </div>
