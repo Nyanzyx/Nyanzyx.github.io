@@ -7,6 +7,38 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project-style.css">
+<style>
+    /* Project video box */
+  .project-video-box {
+    margin-top: 32px;
+  }
+  .project-video-box iframe {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border: 1px solid var(--purple);
+    display: block;
+  }
+  .video-ph {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--off);
+    border: 1px solid var(--purple);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .video-ph-label {
+    font-size: 13px;
+    color: var(--light);
+    letter-spacing: 0.06em;
+  }
+  .video-ph-sub {
+    font-size: 11px;
+    color: var(--rule);
+  }
+</style>
 </head>
 <body>
 <nav>
@@ -49,10 +81,9 @@
     <h2 class="section-heading">Scale and Scope</h2>
     <p class="body-text">Unsanctified was the largest team project in this portfolio at 23 people over 13 months. Beyond feature work, a significant part of the role was refactoring the codebase to be navigable at that team size. Clean architecture became as important as shipping new systems.</p>
     <p class="body-text">Collaboration with the art team on animation timing and combat feel was a continuous process. Getting hit windows, attack cancels, and locomotion blending to feel correct required close back-and-forth iteration across disciplines.</p>
-    <div class="img-placeholder" style="height:300px;">
-      <div class="ph-l">Gameplay Footage and System Diagrams</div>
-      <div class="ph-s">Add screenshots or video embeds here</div>
-    </div>
+    <div class="project-video-box">
+    <iframe src="https://www.youtube.com/embed/6RT54vY_SB8?" allow="accelerometor; fullscreen" allowfullscreen></iframe>
+  </div>
   </div>
 </div>
 <div class="project-footer">
