@@ -111,6 +111,12 @@
 @media (max-width: 768px) {
   .vid-row { grid-template-columns: 1fr; }
 }
+.content-section img,
+.content-section video,
+.content-section .vid-row {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
 </style>
 </head>
 <body>
@@ -126,7 +132,7 @@
   <a href="index.html" class="back-link">All Work</a>
   <div class="project-eyebrow">Player Character Design - Enemy Design - Team Lead - UE5</div>
   <h1 class="project-title">Project Potion</h1>
-  <p class="project-tagline">Project Potion is a 2.5D Side Scroller that focuses on the use of potions. The game's inspiration is from Ghosts and Goblins. It takes place in a land that has been taken over by the Demon Lord. And you have to cleanse the world of the demons.</p>
+  <p class="project-tagline">A 2.5D side-scroller inspired by Ghosts n Goblins, Hollow Knight, and Blasphemous. Cleanse a demon-overrun land using an arsenal of potions.</p>
   <div class="meta-bar">
     <div class="meta-item"><span class="label">Platform</span><span class="value">PC</span></div>
     <div class="meta-item"><span class="label">Engine</span><span class="value">Unreal Engine 5</span></div>
@@ -158,82 +164,57 @@
   <div class="content-section">
     <h2 class="section-heading">Responsibilities</h2>
     <ul class="resp-list">
-      <li>Designed a Custom Damage System to take into account damage modifiers and effects</li>
-      <li>Utilize new animation states to accommodate the use of 2D assets in a 3D engine</li>
-      <li>Designed and Implemented some Enemy AI Interactions and Attacks</li>
-      <li>Designed and Implemented all Player Character movement and animations</li>
-      <li>Manage Git Repository Management and Errors with Collaboration</li>
-      <li>Assigned Roles and Tasks to Team Members</li>
-      <li>Managed Jira/Google Drive for Documentation</li>
-      <li>Made a Custom Projectile System that is used for all potions</li>
+      <li>Designed a custom damage system accounting for damage modifiers and status effects</li>
+      <li>Utilized new animation states to support 2D sprite assets within a 3D engine</li>
+      <li>Designed and implemented enemy AI behaviors, interactions, and attacks</li>
+      <li>Designed and implemented all player character movement and animations</li>
+      <li>Managed the Git repository and resolved collaboration conflicts across the team</li>
+      <li>Assigned roles and tasks to team members as team lead</li>
+      <li>Maintained Jira and Google Drive for documentation and task tracking</li>
+      <li>Built a custom projectile system shared across all potion types</li>
     </ul>
   </div>
   <div class="content-section">
-    <h2 class="section-heading">Working on the Initial Enemies</h2>
-    <p class="body-text">If we take a look at the enemies I had the opportunity to work on the Base Enemy, The Imp Enemy, and the Boss. So I made a base enemy to pass common functionality throughout all the enemies. Ex. Health, Damage Responses, and certain States. My intent with it was to focus on making it versatile enough so I could pass it off to others to allow added functionality.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Base Enemy Code</div>
-      <div class="ph-s">images/project-potion/BaseEnemyCode.png</div>
+    <h2 class="section-heading">Enemy AI Design</h2>
+    <p class="body-text">If we take a look at the enemies I had the opportunity to work on the Base Enemy, the Imp Enemy, and the Boss. So I made a base enemy to pass common functionality throughout all the enemies. Ex. health, damage responses, and certain states. My intent with it was to focus on making it versatile enough so I could pass it off to others to allow added functionality.</p>
+    <div style="width:90%; margin:0 auto; overflow:hidden;">
+      <img src="images/project-potion/BaseEnemyCode.png" alt="Base Enemy Code" style="width:100%; display:block; transform:scale(1.1); transform-origin:top;">
     </div>
-    <p class="body-text">The Imp was the first actual enemy in the game and it was a challenge due to my limited knowledge of flying enemies because they don't utilize the navigation mesh that is built into unreal. To counter this I had to utilize the UE4 Perception component to update a bool if it's seen the player. This will pull it from its patrol path to chase the player until it loses sight of the player.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Video — Imp Enemy Gameplay</div>
-      <div class="ph-s">video placeholder</div>
-    </div>
-    <p class="body-text">The also uses the same functionality as the potions for its projectile. However, it has a homing bool to follow the player for a little bit to improve the aim of the enemy rather than having it predict the player's next location. I also have a montage playing when it shoots and when it's loading its next shot to show the player the moments of down time the enemy has.</p>
+    <p class="body-text">The Imp was the first actual enemy in the game and it was a challenge due to my limited knowledge of flying enemies because they don't utilize the navigation mesh that is built into Unreal. To counter this I had to utilize the UE4 Perception component to update a bool if it's seen the player. This will pull it from its patrol path to chase the player until it loses sight of the player.</p>
+    <video src="videos/project-potion/04 - ImpPerception.mp4" controls autoplay muted loop style="width:100%; display:block;"></video>
+    <p class="body-text">It also uses the same functionality as the potions for its projectile. However, it has a homing bool to follow the player for a little bit to improve the aim of the enemy rather than having it predict the player's next location. I also have a montage playing when it shoots and when it's loading its next shot to show the player the moments of down time the enemy has.</p>
     <div class="vid-row">
-      <div class="img-placeholder" style="height:220px;">
-        <div class="ph-l">Video — Imp Attack Clip 1</div>
-        <div class="ph-s">video placeholder</div>
-      </div>
-      <div class="img-placeholder" style="height:220px;">
-        <div class="ph-l">Video — Imp Attack Clip 2</div>
-        <div class="ph-s">video placeholder</div>
-      </div>
+      <video src="videos/project-potion/03 - ImpATtak1.mp4" autoplay muted loop style="width:100%; display:block;"></video>
+      <video src="videos/project-potion/02 - ImpAtk2.mp4" autoplay muted loop style="width:100%; display:block;"></video>
     </div>
   </div>
   <div class="content-section">
-    <h2 class="section-heading">Making the Boss test the Player</h2>
+    <h2 class="section-heading">Boss Design: The General</h2>
     <p class="body-text">The boss is called The General. My goal for the boss was to force the players to use all their movement mechanics along with their potions. Also, there needed to be a choice of this a melee-type boss or a ranged version. &nbsp;Ultimately I settled on the melee-type boss for it to have easily telegraphed attacks. Which allows me to play with animations to have startup frames to assist with the boss.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Video — Boss Gameplay</div>
-      <div class="ph-s">video placeholder</div>
-    </div>
+    <video src="videos/project-potion/Bossfight.mp4" controls autoplay muted loop style="width:100%; display:block;"></video>
     <p class="body-text">I decided to give the boss phases to ease the player into the combat. Such a sudden spike in combat difficulty isn't an enjoyable experience for most. So the phases add more moves to the boss as well as increase the speed. I also had to account for downtime. The player needs time to rest during these fights as they can be overwhelming. This was solved by adding a transition phase in between phases. The phases are described below:</p>
     <ul class="phase-list">
       <li>Phase 1 - The boss jumps toward the player by taking the distance between them and the player getting 1/3 of the distance as a point and moving to that location. If the boss jumps like this spikes will be summoned on the ground to force the player to move. There is also a chance for the boss to jump directly on the player but spikes are not spawned when this occurs.</li>
       <li>Phase 2 - The boss acquires a new move where jumps directly up to give the player time to react to a slam on the ground which sends a wave that can hit the player. Similar to a ranged attack as the player could attempt to kite the boss while using their potions.</li>
-      <li>Phase 3 - A 15% increase in attack frequency which makes the window to dodge attacks a lot harder. To balance this phase 3 only activates when the boss has 10% Hit Points left.</li>
+      <li>Phase 3 - A 15% increase in attack frequency which makes the window to dodge attacks a lot harder. To balance this phase 3 only activates when the boss has 10% of hit points left.</li>
       <li>Transition Phase - The boss runs to the left side and jumps out of the arena so the player doesn't have to worry about them but he summons 5 minions from the right to fight the player in the meantime. Once all enemies are dead the boss will jump back into the arena in their next phase.</li>
     </ul>
     <p class="body-text">In reflection, I believe that to improve this boss I could have introduced their abilities a bit more during the fight. At the beginning of the fight, you assume that this is a strictly melee boss. So the change to phase two with the ranged attack disrupts the player which can be seen as a good or bad thing but that wasn't the intent. So I could have added a cutscene of sorts that shows the usage of the ability and then continued the fight.</p>
   </div>
   <div class="content-section">
-    <h2 class="section-heading">How the player was brought to life</h2>
+    <h2 class="section-heading">Player Character Design</h2>
     <p class="body-text">With Ghosts and Goblins as an inspiration we ran into a few issues in the first iterations of the character as you could throw projectiles however they couldn't travel far and it was difficult to traverse throughout the levels. We had to revisit the drawing board and decided to take additional inspiration from Hollow Knight and Blaphemous for their movement mechanics.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Video — Player Movement</div>
-      <div class="ph-s">video placeholder</div>
-    </div>
-    <p class="body-text">To solve this issue I implemented a couple of extra movement mechanics: Dashing, Wall Jumping, and Wall Sliding. The Dash does not give the player Invulnerability frames as we allowed you to use it while In the Air to dodge attacks and floor-based enemies in proper areas. As for the Wall Jumping certain areas in maps require its use as well as it's another option for the player to use. The wall slide was just added in to time the Wall Jumps easier. The overall goal of these mechanics is to give the player more options than just running and jumping to avoid attacks like in Mario.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">AnimBP For Player</div>
-      <div class="ph-s">images/project-potion/AnimBP For Player.png</div>
-    </div>
+    <video src="videos/project-potion/09 - PlayerMovemnt.mp4" autoplay muted loop style="width:100%; display:block;"></video>
+    <p class="body-text">To solve this issue I implemented a couple of extra movement mechanics: Dashing, Wall Jumping, and Wall Sliding. The Dash does not give the player invulnerability frames as we allowed you to use it while in the air to dodge attacks and floor-based enemies in proper areas. As for the Wall Jumping certain areas in maps require its use as well as it's another option for the player to use. The wall slide was just added in to time the Wall Jumps easier. The overall goal of these mechanics is to give the player more options than just running and jumping to avoid attacks like in Mario.</p>
+    <img src="images/project-potion/AnimBP For Player.png" alt="AnimBP For Player" style="width:100%; display:block;">
     <p class="body-text">When first creating the character I utilized the plugin PaperZD so we could have more support for sprite sheets in the game as we wanted anything living to be in 2D and anything static to be in 3D. This came with some challenges as it changed the animation blueprints and the functionality of the state machines that are used within it. One feature that was retained from the regular animation blueprints was the functionality of animation notifications which were crucial for potion throwing to allow for it to feel fluid. I was also able to add traditional animations to the player if I didn't it would feel choppy to travel around.</p>
   </div>
   <div class="content-section">
-    <h2 class="section-heading">DAMAGE System (Player FocuseD)</h2>
-    <p class="body-text">The Damage system is used throughout the entire game. I wanted to focus on the player feedback aspect of it as a result I had to study games like Super Smash Bros and Hollow Knight to figure out how they communicate to the player damage. From my studies, I learned that sprite flickers and hit stops are the most impactful when it comes to providing that feedback.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Player Damage System</div>
-      <div class="ph-s">images/project-potion/PlayerDamageSystem.png</div>
-    </div>
+    <h2 class="section-heading">Designing the Damage System</h2>
+    <p class="body-text">The Damage System is used throughout the entire game. I wanted to focus on the player feedback aspect of it as a result I had to study games like Super Smash Bros and Hollow Knight to figure out how they communicate to the player damage. From my studies, I learned that sprite flickers and hit stops are the most impactful when it comes to providing that feedback.</p>
+    <img src="images/project-potion/PlayerDamageSystem.png" alt="Player Damage System" style="width:100%; display:block;">
     <p class="body-text">The Damage System allows for the player to receive different types of damage depending on what they get hit by whether it is a Stun, Knockback, or Regular Hit. However, during the prototype phase, we keep all the damage universal and trigger regular hit reactions. I added a sprite flicker to show the invulnerability frames that the player gets after being hit if we didn't have that the player wouldn't know when they could get hit again because of poor player feedback. There is also a color change to the sprite using a dynamic material that fades in and out based on hits. Combining these helps to achieve my overall goal of communicating proper feedback.</p>
-    <div class="img-placeholder" style="height:260px;">
-      <div class="ph-l">Video — Damage System</div>
-      <div class="ph-s">video placeholder</div>
-    </div>
+    <video src="videos/project-potion/05 - PlayerTakingDamage.mp4" controls autoplay muted loop style="width:100%; display:block;"></video>
   </div>
 </div>
 <div class="project-footer">

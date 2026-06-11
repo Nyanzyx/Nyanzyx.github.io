@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&family=Courier+Prime:wght@400;700&display=swap');
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -5,7 +7,7 @@
   --off:    #111111;
   --black:  #000000;
   --mid:    #01E0A2;
-  --light:  #666666;
+  --light:  #94A3B8;
   --rule:   #222222;
   --purple: #8405F7;
   --green:  #01E0A2;
@@ -122,9 +124,12 @@ nav {
 .content-section:last-child { border-bottom: none; }
 
 .section-heading {
-  font-size: 22px; font-weight: 400;
-  letter-spacing: -0.02em; color: var(--white);
+  font-size: 30px; font-weight: 400;
+  letter-spacing: 0.05em; color: var(--white);
   margin-bottom: 24px;
+  border-bottom: 1px solid var(--purple);
+  padding-bottom: 4px;
+  width: fit-content;
 }
 
 .body-text {
@@ -228,6 +233,17 @@ nav {
   font-size: 13px;
 }
 .project-footer a:hover { color: var(--green); }
+
+/* FONT ASSIGNMENTS */
+.project-title, .section-heading, .enemy-name {
+  font-family: 'Bebas Neue', sans-serif;
+}
+.body-text, .resp-list li, .callout p {
+  font-family: 'Roboto', sans-serif;
+}
+.project-eyebrow, .meta-item .label, .wip-banner {
+  font-family: 'Courier Prime', monospace;
+}
 
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
