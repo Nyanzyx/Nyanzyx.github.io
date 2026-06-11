@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSM Node Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ── Portfolio CSS variables ───────────────────────────────── */
+:root {
+  --black:  #000000;
+  --off:    #111111;
+  --purple: #8405F7;
+  --green:  #01E0A2;
+  --light:  #A3A3A3;
+  --rule:   #222222;
+  --white:  #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--black);
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* The SVG fills the viewport */
+#fsm-svg {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+#fsm-svg:active { cursor: grabbing; }
+
+/* ── Hover tooltip ─────────────────────────────────────────── */
+#tip {
+  position: fixed;
+  display: none;
+  width: 220px;
+  background: #080808;
+  border: 1px solid var(--purple);
+  padding: 12px 14px;
+  pointer-events: none;
+  z-index: 100;
+}
+#tip-title {
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 7px;
+}
+#tip-body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: var(--light);
+  line-height: 1.65;
+}
+
+/* Corner hint */
+.zoom-hint {
+  position: fixed;
+  bottom: 18px;
+  right: 22px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--light);
+  pointer-events: none;
+  opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<svg id="fsm-svg"></svg>
+<div class="zoom-hint">Scroll to zoom &nbsp;·&nbsp; Drag to pan</div>
+
+<!-- Hover tooltip — populated and positioned via JS -->
+<div id="tip">
+  <div id="tip-title"></div>
+  <div id="tip-body"></div>
+</div>
+
+<!-- D3 v7 from CDN -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script>
+
+// ================================================================
+//  1. DATA
+//  ── Edit nodes and links here. Everything else auto-renders. ──
+// ================================================================
+
+/*
+ * NODES
+ * ─────
+ * id     : unique string key referenced by links
+ * label  : text shown inside the node
+ * type   : 'state' | 'condition' | 'action'
+ * state     → Rectangle   (a stable AI state)
+ * condition → Diamond     (a branching check)
+ * action    → Ellipse     (a triggered behavior)
+ * x, y   : center position on the canvas (pixels)
+ */
+const nodes = [
+  {
+    id: 'patrol', label: 'Patrol', type: 'state', x: 250, y: 100,
+    detail: 'Default resting state. No threats detected. AI Perception samples the environment continuously and suspicion decays passively over time.'
+  },
+  {
+    id: 'suspicious', label: 'Suspicious', type: 'state', x: 550, y: 100,
+    detail: 'The enemy has partially detected the player. Suspicion is above zero but below the alert threshold — behavior is heightened but not yet reactive.'
+  },
+  {
+    id: 'hasLOS1', label: 'bHasLOS', type: 'condition', x: 550, y: 220,
+    detail: 'Checks for an unobstructed line of sight to the player. Routes to Increase Sus on TRUE, or Lost LOS on FALSE.'
+  },
+  {
+    id: 'lostLOS', label: 'Lost LOS', type: 'condition', x: 550, y: 340,
+    detail: 'Evaluates the suspicion rating when LOS is broken to determine next state.'
+  },
+  {
+    id: 'decrSusLeft', label: 'Decrease Sus', type: 'action', x: 250, y: 340,
+    detail: 'Reduces the suspicion rating. Routes back to Patrol when complete.'
+  },
+  {
+    id: 'decrSusDown', label: 'Decrease Sus', type: 'action', x: 550, y: 460,
+    detail: 'Reduces suspicion slightly before committing to a search pattern.'
+  },
+  {
+    id: 'setSearchTimer1', label: 'Set Search Timer', type: 'action', x: 550, y: 560,
+    detail: 'Initialises a countdown timer for the search phase. Defines how long the enemy will actively search before standing down.'
+  },
+  {
+    id: 'searching', label: 'Searching', type: 'state', x: 550, y: 660,
+    detail: 'Enemy moves to the last known player position and sweeps the area. Regaining LOS escalates directly to Alert.'
+  },
+  {
+    id: 'hasLOS2', label: 'bHasLOS?', type: 'condition', x: 550, y: 780,
+    detail: 'Checks for an unobstructed line of sight to the player while searching.'
+  },
+  {
+    id: 'decrSusSearch', label: 'Decrease Sus', type: 'action', x: 350, y: 780,
+    detail: 'Reduces the suspicion rating over time while actively searching.'
+  },
+  {
+    id: 'searchTimerCheck', label: 'SearchTimer <= 0\nOR SusRating <= 0', type: 'condition', x: 1, y:680,
+    detail: 'Checks if the search duration has expired or suspicion is gone.'
+  },
+  {
+    id: 'incrSus', label: 'Increase Sus', type: 'action', x: 750, y: 480,
+    detail: 'Rapidly increments the suspicion rating while LOS is maintained. Routes to Alert.'
+  },
+  {
+    id: 'alert', label: 'Alert', type: 'state', x: 550, y: 900,
+    detail: 'Fully alerted and actively tracking the player. Checks LOS continuously.'
+  },
+  {
+    id: 'hasLOS3', label: 'bHasLOS?', type: 'condition', x: 550, y: 1020,
+    detail: 'Checks for an unobstructed line of sight to the player during the Alert state.'
+  },
+  {
+    id: 'decrAlertTimer', label: 'Decrease Alert Timer', type: 'action', x: 350, y: 1020,
+    detail: 'Gradually reduces the alert timer while LOS is broken.'
+  },
+  {
+    id: 'alertTimerCheck', label: 'Alert Timer <= 0', type: 'condition', x: 150, y: 1020,
+    detail: 'Checks if the enemy should stand down from Alert to Searching.'
+  },
+  {
+    id: 'setSearchTimer2', label: 'Set Search Timer', type: 'action', x: -50, y: 1020,
+    detail: 'Initialises the countdown timer for the search phase after losing the player in an Alert.'
+  },
+  {
+    id: 'combatCountdown', label: 'Combat Countdown', type: 'action', x: 750, y: 1020,
+    detail: 'Initiates a short countdown before transitioning to full combat behavior.'
+  },
+  {
+    id: 'combatStartCheck', label: 'Alert to Combat Start\nCountdown <= 0', type: 'condition', x: 1000, y: 820,
+    detail: 'Evaluates whether the combat countdown has finished.'
+  },
+  {
+    id: 'combat', label: 'Combat', type: 'state', x: 1250, y: 1020,
+    detail: 'Full combat mode. All attack and pursuit behaviors are active via the Behavior Tree.'
+  }
+];
+
+/*
+ * LINKS
+ * ─────
+ * source : id of the origin node
+ * target : id of the destination node
+ * label  : (optional) short text rendered on the line, e.g. 'TRUE' / 'FALSE'
+ * cx, cy : (optional) quadratic-bezier control point for routing curved links.
+ */
+const links = [
+  // --- PATROL TO SUSPICIOUS ---
+  { source: 'patrol', target: 'suspicious', label: 'bHasLOS? = TRUE' },
+  { source: 'patrol', target: 'patrol', label: 'bHasLOS? = FALSE', cx: 250, cy: 20 }, // Top loop back
+  
+  // --- SUSPICIOUS BREAKDOWN ---
+  { source: 'suspicious', target: 'hasLOS1', label: '' },
+  { source: 'hasLOS1', target: 'lostLOS', label: 'FALSE' },
+  { source: 'hasLOS1', target: 'incrSus', label: 'TRUE', cx: 750, cy: 220 },
+  
+  // --- LOST LOS BREAKDOWN ---
+  { source: 'lostLOS', target: 'decrSusLeft', label: 'SusRating < 30%' },
+  { source: 'lostLOS', target: 'decrSusDown', label: 'SusRating > 30%' },
+  
+  // Returns to patrol
+  { source: 'decrSusLeft', target: 'patrol', label: '' },
+  
+  // Drops into searching
+  { source: 'decrSusDown', target: 'setSearchTimer1', label: '' },
+  { source: 'setSearchTimer1', target: 'searching', label: '' },
+  
+  // --- SEARCHING BREAKDOWN ---
+  { source: 'searching', target: 'hasLOS2', label: '' },
+  { source: 'hasLOS2', target: 'decrSusSearch', label: 'FALSE' },
+  { source: 'hasLOS2', target: 'alert', label: 'TRUE' },
+  
+  { source: 'decrSusSearch', target: 'searchTimerCheck', label: '' },
+  
+  // Left side looping paths
+  { source: 'searchTimerCheck', target: 'patrol', label: 'TRUE', cx: 100, cy: 100 }, // Far-left loop to Patrol
+  { source: 'searchTimerCheck', target: 'searching', label: 'FALSE', cx: 250, cy: 660 }, // Return loop to Searching
+  
+  // --- ALERT ESCALATION ---
+  { source: 'incrSus', target: 'alert', label: '', cx: 700, cy: 820 },
+  { source: 'alert', target: 'hasLOS3', label: '' },
+  
+  { source: 'hasLOS3', target: 'decrAlertTimer', label: 'FALSE' },
+  { source: 'hasLOS3', target: 'combatCountdown', label: 'TRUE' },
+  
+  // Alert cooldown behavior
+  { source: 'decrAlertTimer', target: 'alertTimerCheck', label: '' },
+  { source: 'alertTimerCheck', target: 'setSearchTimer2', label: '' }, // Heads left
+  { source: 'alertTimerCheck', target: 'alert', label: 'FALSE', cx: 250, cy: 900 }, // Loop back to Alert
+  { source: 'setSearchTimer2', target: 'searching', label: '', cx: -50, cy: 660 }, // Long far-left return to Searching
+  
+  // --- COMBAT CHECK ---
+  { source: 'combatCountdown', target: 'combatStartCheck', label: '' },
+  { source: 'combatStartCheck', target: 'combat', label: 'TRUE' },
+  { source: 'combatStartCheck', target: 'alert', label: 'FALSE' } // Bottom loop back to Alert
+];
+
+
+// ================================================================
+//  2. SHAPE DIMENSIONS
+//  ── Resize node shapes here without touching any draw code. ──
+// ================================================================
+const DIM = {
+  state:     { hw: 68, hh: 22 },
+  // rv = fixed vertical half-diagonal (controls height).
+  // rh is computed per-node from text width — see pre-processing below.
+  condition: { rv: 28 },
+  action:    { rx: 72, ry: 22 },
+};
+
+// ================================================================
+//  2b. NODE PRE-PROCESSING
+//  Splits labels on '\n' and computes per-node diamond size so
+//  condition diamonds always contain their text regardless of length.
+// ================================================================
+const CHAR_W   = 7.5;  // Courier Prime 12px — approx px per character
+const LINE_H   = 15;   // vertical line spacing (px)
+const VERT_PAD = 10;   // extra vertical padding inside diamond
+const H_PAD    = 14;   // extra horizontal padding inside diamond
+
+nodes.forEach(node => {
+  // All node types: split label into lines for multi-line rendering
+  node._lines = node.label.split('\n');
+
+  if (node.type === 'condition') {
+    const tw = Math.max(...node._lines.map(l => l.length)) * CHAR_W;
+    const th = node._lines.length * LINE_H;
+
+    // Vertical half-diagonal: just enough for the text height + padding.
+    const rv = Math.max(DIM.condition.rv, th / 2 + VERT_PAD);
+
+    // Horizontal half-diagonal from the asymmetric containment formula:
+    //   |x/rh| + |y/rv| = 1  at corner (tw/2, th/2):
+    //   rh >= (tw/2) / (1 - th/(2*rv))  =  tw*rv / (2*rv - th)
+    const rh = tw * rv / (2 * rv - th) + H_PAD;
+
+    node._rv = rv;
+    node._rh = Math.max(rv, rh);  // rh >= rv keeps it visually diamond-shaped
+  }
+});
+
+
+// ================================================================
+//  3. SVG & ZOOM SETUP
+// ================================================================
+const svgEl = document.getElementById('fsm-svg');
+const svg   = d3.select(svgEl);
+
+// All rendered content lives inside `root` so zoom transforms it as one unit
+const root = svg.append('g').attr('class', 'root');
+
+const zoom = d3.zoom()
+  .scaleExtent([0.1, 6])
+  .on('zoom', (event) => root.attr('transform', event.transform));
+
+svg.call(zoom);
+
+
+// ================================================================
+//  4. DEFS — Arrowhead marker
+// ================================================================
+const defs = svg.append('defs');
+
+/*
+ * The marker path "M0,-5 L10,0 L0,5 Z" draws a solid triangle.
+ * refX:10  → aligns the TIP of the arrowhead to the path endpoint,
+ *            which lands exactly on the node boundary.
+ */
+defs.append('marker')
+  .attr('id',          'arrow')
+  .attr('viewBox',     '0 -5 10 10')
+  .attr('refX',        10)
+  .attr('refY',        0)
+  .attr('markerWidth',  6)
+  .attr('markerHeight', 6)
+  .attr('orient',      'auto')
+  .append('path')
+    .attr('d',    'M0,-5L10,0L0,5Z')
+    .attr('fill', '#555555');
+
+
+// ================================================================
+//  5. HELPERS
+// ================================================================
+
+// Fast node lookup: id → node object
+const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+
+/**
+ * boundaryPoint(node, tx, ty)
+ * ───────────────────────────
+ * Returns the {x,y} where the ray from node.center toward (tx,ty)
+ * first exits the node's boundary shape.
+ * Used so link lines start/end at the edge of the shape, not the center.
+ */
+function boundaryPoint(node, tx, ty) {
+  const nx = node.x, ny = node.y;
+  const dx = tx - nx,  dy = ty - ny;
+  if (dx === 0 && dy === 0) return { x: nx, y: ny };
+
+  const len = Math.hypot(dx, dy);
+  const ux = dx / len, uy = dy / len;  // unit direction vector
+
+  if (node.type === 'state') {
+    // Axis-aligned rectangle — find which edge the ray hits first
+    const { hw, hh } = DIM.state;
+    const tX = ux !== 0 ? hw / Math.abs(ux) : Infinity;
+    const tY = uy !== 0 ? hh / Math.abs(uy) : Infinity;
+    const t  = Math.min(tX, tY);
+    return { x: nx + ux * t, y: ny + uy * t };
+  }
+
+  if (node.type === 'condition') {
+    const rh = node._rh || DIM.condition.rv * 2;
+    const rv = node._rv || DIM.condition.rv;
+    const t  = 1 / (Math.abs(ux) / rh + Math.abs(uy) / rv);
+    return { x: nx + ux * t, y: ny + uy * t };
+  }
+
+  if (node.type === 'action') {
+    // Ellipse: (x/rx)² + (y/ry)² = 1
+    // Parametric ray: x=ux*t, y=uy*t → t = 1/sqrt((ux/rx)²+(uy/ry)²)
+    const { rx, ry } = DIM.action;
+    const t = 1 / Math.sqrt((ux / rx) ** 2 + (uy / ry) ** 2);
+    return { x: nx + ux * t, y: ny + uy * t };
+  }
+
+  return { x: nx, y: ny };
+}
+
+/**
+ * buildPath(link) → SVG path string
+ * ────────────────────────────────
+ * Straight line when no control point is set.
+ * Quadratic bezier when cx/cy is defined on the link — used for
+ * backward edges that would otherwise overlap other nodes.
+ */
+function buildPath(link) {
+  const src = byId[link.source];
+  const tgt = byId[link.target];
+
+  if (link.cx !== undefined) {
+    // Curved: exit src toward the control point, enter tgt from the control point
+    const sp = boundaryPoint(src, link.cx, link.cy);
+    const tp = boundaryPoint(tgt, link.cx, link.cy);
+    return `M ${sp.x} ${sp.y} Q ${link.cx} ${link.cy} ${tp.x} ${tp.y}`;
+  }
+
+  // Straight: connect boundary points directly
+  const sp = boundaryPoint(src, tgt.x, tgt.y);
+  const tp = boundaryPoint(tgt, src.x, src.y);
+  return `M ${sp.x} ${sp.y} L ${tp.x} ${tp.y}`;
+}
+
+/**
+ * pathMidpoint(link) → {x, y}
+ * ────────────────────────────
+ * Returns the visual midpoint of the link — used to position labels.
+ * For curved paths, evaluates the bezier at t = 0.5.
+ */
+function pathMidpoint(link) {
+  const src = byId[link.source];
+  const tgt = byId[link.target];
+
+  if (link.cx !== undefined) {
+    // Quadratic bezier midpoint at t = 0.5
+    const t = 0.5;
+    return {
+      x: (1 - t) ** 2 * src.x + 2 * (1 - t) * t * link.cx + t ** 2 * tgt.x,
+      y: (1 - t) ** 2 * src.y + 2 * (1 - t) * t * link.cy + t ** 2 * tgt.y,
+    };
+  }
+
+  return { x: (src.x + tgt.x) / 2, y: (src.y + tgt.y) / 2 };
+}
+
+
+// ================================================================
+//  6. DRAW LINKS  (drawn before nodes so nodes render on top)
+// ================================================================
+const linkLayer = root.append('g').attr('class', 'link-layer');
+
+links.forEach(link => {
+  // ── Arrow path ──────────────────────────────────────────────
+  linkLayer.append('path')
+    .attr('d',            buildPath(link))
+    .attr('fill',         'none')
+    .attr('stroke',       '#444444')
+    .attr('stroke-width', 1.5)
+    .attr('marker-end',   'url(#arrow)');
+
+  // ── Optional label ──────────────────────────────────────────
+  if (link.label) {
+    const mid  = pathMidpoint(link);
+    const padX = 8, padY = 4;
+    const estW = link.label.length * 7.5 + padX * 2;
+    const estH = 17;
+
+    // Dark background rect so the label is readable over lines
+    linkLayer.append('rect')
+      .attr('x',      mid.x - estW / 2)
+      .attr('y',      mid.y - estH / 2)
+      .attr('width',  estW)
+      .attr('height', estH)
+      .attr('fill',   '#070707')
+      .attr('stroke', 'none');
+
+    linkLayer.append('text')
+      .attr('x',                  mid.x)
+      .attr('y',                  mid.y)
+      .attr('text-anchor',        'middle')
+      .attr('dominant-baseline',  'middle')
+      .attr('fill',               '#A3A3A3')
+      .attr('font-size',          '11px')
+      .attr('font-family',        'Roboto, sans-serif')
+      .attr('pointer-events',     'none')
+      .text(link.label);
+  }
+});
+
+
+// ================================================================
+//  7. DRAW NODES
+// ================================================================
+const nodeLayer = root.append('g').attr('class', 'node-layer');
+
+nodes.forEach(node => {
+  // Group is translated to the node's center — child shapes are drawn at 0,0
+  const g = nodeLayer.append('g')
+    .attr('transform', `translate(${node.x},${node.y})`);
+
+  // ── Shape ──────────────────────────────────────────────────
+  let shape;
+
+  if (node.type === 'state') {
+    const { hw, hh } = DIM.state;
+    shape = g.append('rect')
+      .attr('x', -hw).attr('y', -hh)
+      .attr('width', hw * 2).attr('height', hh * 2);
+  }
+
+  if (node.type === 'condition') {
+    const rh = node._rh || DIM.condition.rv * 2;
+    const rv = node._rv || DIM.condition.rv;
+    shape = g.append('polygon')
+      .attr('points', `0,${-rv} ${rh},0 0,${rv} ${-rh},0`);
+  }
+
+  if (node.type === 'action') {
+    const { rx, ry } = DIM.action;
+    shape = g.append('ellipse')
+      .attr('rx', rx).attr('ry', ry);
+  }
+
+  // Shared styles + hover interaction for all shapes
+  const tip      = document.getElementById('tip');
+  const tipTitle = document.getElementById('tip-title');
+  const tipBody  = document.getElementById('tip-body');
+  const TIP_W    = 220;   // must match #tip width in CSS
+  const TIP_OFFSET = 14;  // gap between cursor and tooltip edge
+
+  shape
+    .attr('fill',         '#111111')
+    .attr('stroke',       '#8405F7')
+    .attr('stroke-width', 1.5)
+    .style('cursor',      'pointer')
+    .on('mouseenter', function (event) {
+      // Highlight border
+      d3.select(this).attr('stroke', '#01E0A2');
+      // Populate tooltip
+      tipTitle.textContent = node.label;
+      tipBody.textContent  = node.detail || '';
+      tip.style.display    = 'block';
+    })
+    .on('mousemove', function (event) {
+      // Position tooltip near cursor, clamped to viewport edges
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const th = tip.offsetHeight;
+      let x = event.clientX + TIP_OFFSET;
+      let y = event.clientY + TIP_OFFSET;
+      // Flip left if it would overflow right edge
+      if (x + TIP_W > vw - 8) x = event.clientX - TIP_W - TIP_OFFSET;
+      // Flip above if it would overflow bottom edge
+      if (y + th > vh - 8)    y = event.clientY - th - TIP_OFFSET;
+      tip.style.left = x + 'px';
+      tip.style.top  = y + 'px';
+    })
+    .on('mouseleave', function () {
+      d3.select(this).attr('stroke', '#8405F7');
+      tip.style.display = 'none';
+    });
+
+  // ── Label (supports multi-line via \n in node.label) ───────
+  const lines     = node._lines || [node.label];
+  const blockHalfH = ((lines.length - 1) * LINE_H) / 2;
+
+  const textEl = g.append('text')
+    .attr('text-anchor',       'middle')
+    .attr('dominant-baseline', 'middle')
+    .attr('fill',              '#A3A3A3')
+    .attr('font-size',         '12px')
+    .attr('font-family',       'Courier Prime, monospace')
+    .attr('letter-spacing',    '0.04em')
+    .attr('pointer-events',    'none');
+
+  // Each tspan is absolutely positioned to vertically center the block at y=0
+  lines.forEach((line, i) => {
+    textEl.append('tspan')
+      .attr('x', 0)
+      .attr('y', -blockHalfH + i * LINE_H)
+      .text(line);
+  });
+});
+
+
+// ================================================================
+//  8. LEGEND
+// ================================================================
+/*
+ * The legend is appended to the <svg> directly (not `root`) so it
+ * stays fixed in the corner regardless of pan/zoom.
+ */
+const LEGEND_DATA = [
+  { shape: 'rect',    label: 'State'     },
+  { shape: 'diamond', label: 'Condition' },
+  { shape: 'ellipse', label: 'Action'    },
+];
+
+const legend = svg.append('g').attr('transform', 'translate(20, 20)');
+
+LEGEND_DATA.forEach((item, i) => {
+  const row = legend.append('g').attr('transform', `translate(0,${i * 34})`);
+
+  if (item.shape === 'rect') {
+    row.append('rect')
+      .attr('x', 0).attr('y', -11)
+      .attr('width', 44).attr('height', 22)
+      .attr('fill', '#111111').attr('stroke', '#8405F7').attr('stroke-width', 1.5);
+  }
+  if (item.shape === 'diamond') {
+    row.append('polygon')
+      .attr('points', '22,-13 44,0 22,13 0,0')
+      .attr('fill', '#111111').attr('stroke', '#8405F7').attr('stroke-width', 1.5);
+  }
+  if (item.shape === 'ellipse') {
+    row.append('ellipse')
+      .attr('cx', 22).attr('cy', 0).attr('rx', 22).attr('ry', 11)
+      .attr('fill', '#111111').attr('stroke', '#8405F7').attr('stroke-width', 1.5);
+  }
+
+  row.append('text')
+    .attr('x', 54).attr('y', 0)
+    .attr('dominant-baseline', 'middle')
+    .attr('fill', '#A3A3A3')
+    .attr('font-size', '11px')
+    .attr('font-family', 'Roboto, sans-serif')
+    .text(item.label);
+});
+
+
+// ================================================================
+//  9. INITIAL VIEWPORT — fit the full graph into view
+// ================================================================
+function fitView() {
+  const xs  = nodes.map(n => n.x);
+  const ys  = nodes.map(n => n.y);
+  const pad = 100;
+
+  const graphMinX = Math.min(...xs) - pad;
+  const graphMaxX = Math.max(...xs) + pad;
+  const graphMinY = Math.min(...ys) - pad;
+  const graphMaxY = Math.max(...ys) + pad;
+
+  const svgW = svgEl.clientWidth  || window.innerWidth;
+  const svgH = svgEl.clientHeight || window.innerHeight;
+
+  // Scale to fit, but never zoom in beyond 1× on initial load
+  const scale = Math.min(
+    svgW / (graphMaxX - graphMinX),
+    svgH / (graphMaxY - graphMinY),
+    1
+  ) * 0.9;
+
+  const tx = (svgW - (graphMinX + graphMaxX) * scale) / 2;
+  const ty = (svgH - (graphMinY + graphMaxY) * scale) / 2;
+
+  svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+}
+
+fitView();
+window.addEventListener('resize', fitView);
+
+</script>
+</body>
+</html>
