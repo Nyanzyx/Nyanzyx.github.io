@@ -21,7 +21,11 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--black);
+  background-color: #1a1a1a;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
   overflow: hidden;
   width: 100vw;
   height: 100vh;
@@ -75,12 +79,36 @@ body {
   pointer-events: none;
   opacity: 0.6;
 }
+
+/* Reset button */
+.reset-btn {
+  position: fixed;
+  top: 18px;
+  right: 22px;
+  font-family: 'Courier Prime', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--light);
+  background: #111111;
+  border: 1px solid var(--purple);
+  padding: 6px 14px;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: color 0.15s, border-color 0.15s, opacity 0.15s;
+}
+.reset-btn:hover {
+  color: var(--green);
+  border-color: var(--green);
+  opacity: 1;
+}
 </style>
 </head>
 <body>
 
 <svg id="fsm-svg"></svg>
 <div class="zoom-hint">Scroll to zoom &nbsp;·&nbsp; Drag to pan</div>
+<button class="reset-btn" id="reset-btn">Reset View</button>
 
 <!-- Hover tooltip — populated and positioned via JS -->
 <div id="tip">
@@ -645,6 +673,7 @@ function fitView() {
 
 fitView();
 window.addEventListener('resize', fitView);
+document.getElementById('reset-btn').addEventListener('click', fitView);
 
 </script>
 </body>
