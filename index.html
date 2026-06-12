@@ -114,13 +114,23 @@ nav {
 
 /* ── SECTION LABEL ── */
 .section-label {
-  padding: 24px 48px 16px;
+  padding: 0 48px;
+  height: 48px;
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--mid);
   border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-label-actions {
+  display: flex;
+  gap: 10px;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
 /* ── PROJECT GRID ── */
@@ -193,6 +203,24 @@ nav {
   background: rgba(0,0,0,0.85);
   border: 1px solid var(--green);
   padding: 3px 9px;
+}
+
+/* personal / professional tags */
+.tag-personal,
+.tag-pro {
+  display: inline-block;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+.tag-personal {
+  color: var(--light);
+  border: 1px solid var(--rule);
+}
+.tag-pro {
+  color: var(--green);
+  border: 1px solid var(--green);
 }
 
 /* card info */
@@ -348,6 +376,7 @@ footer {
 /* ── RESPONSIVE ── */
 @media (max-width: 800px) {
   nav, .intro, .section-label, .contact, footer { padding-left: 20px; padding-right: 20px; }
+  .section-label { height: auto; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; gap: 12px; }
   .intro { flex-direction: column; align-items: flex-start; padding-top: 48px; padding-bottom: 40px; }
   .intro-right { display: none; }
   .projects { grid-template-columns: 1fr; }
@@ -376,7 +405,13 @@ footer {
   </ul>
 </nav>
 
-<div class="section-label">Selected Work</div>
+<div class="section-label">
+  Selected Work
+  <div class="section-label-actions">
+    <a href="mailto:logansmithnyan@gmail.com" class="btn btn-dark">Get in touch</a>
+    <a href="https://www.linkedin.com/in/logan-smith-73a0a2197/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+  </div>
+</div>
 
 <div class="projects">
 
@@ -395,6 +430,7 @@ footer {
     </div>
     <div class="card-info">
       <div class="card-text">
+        <span class="tag-personal">Personal</span>
         <div class="card-genre">Combat Design · AI Systems</div>
         <div class="card-title">Beast of the West</div>
         <div class="card-sub">Third Person Action Adventure &nbsp;·&nbsp; Team of 3</div>
@@ -413,6 +449,7 @@ footer {
     </div>
     <div class="card-info">
       <div class="card-text">
+        <span class="tag-personal">Personal</span>
         <div class="card-genre">Technical Design · Combat Design</div>
         <div class="card-title">Off Air</div>
         <div class="card-sub">FPS Boomer Shooter &nbsp;·&nbsp; Team of 5 &nbsp;·&nbsp; Team Lead</div>
@@ -430,6 +467,7 @@ footer {
     </div>
     <div class="card-info">
       <div class="card-text">
+        <span class="tag-personal">Personal</span>
         <div class="card-genre">Player Character · Enemy Design</div>
         <div class="card-title">Project Potion</div>
         <div class="card-sub">2D Side-scroller &nbsp;·&nbsp; Team of 7 &nbsp;·&nbsp; Team Lead</div>
@@ -447,6 +485,7 @@ footer {
     </div>
     <div class="card-info">
       <div class="card-text">
+        <span class="tag-pro">Professional</span>
         <div class="card-genre">Combat Design · Weapon Systems</div>
         <div class="card-title">Unsanctified</div>
         <div class="card-sub">TPS Soulslike &nbsp;·&nbsp; Team of 23</div>
@@ -504,7 +543,6 @@ footer {
   <div class="contact-links">
     <a href="mailto:logansmithnyan@gmail.com" class="btn btn-dark">Get in touch</a>
     <a href="https://www.linkedin.com/in/logan-smith-73a0a2197/" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
-    <a href="game-design-resume.pdf" target="_blank" class="btn btn-outline">Resume ↗</a>
   </div>
 </div>
 

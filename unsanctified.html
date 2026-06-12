@@ -8,35 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project-style.css">
 <style>
-    /* Project video box */
   .project-video-box {
-    margin-top: 32px;
+    margin-bottom: 32px;
   }
-  .project-video-box iframe {
-    width: 100%;
-    aspect-ratio: 16/9;
+  .video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
     border: 1px solid var(--purple);
+  }
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
     display: block;
-  }
-  .video-ph {
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: var(--off);
-    border: 1px solid var(--purple);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .video-ph-label {
-    font-size: 13px;
-    color: var(--light);
-    letter-spacing: 0.06em;
-  }
-  .video-ph-sub {
-    font-size: 11px;
-    color: var(--rule);
   }
 </style>
 </head>
@@ -56,7 +45,7 @@
   </ul>
 </nav>
 <div class="project-hero">
-  <a href="index.html" class="back-link">All Work</a>
+  <a href="index.html" class="back-link">← All Work</a>
   <h1 class="project-title">Unsanctified</h1>
   <p class="project-tagline">A third-person soulslike action-adventure. Worked within a 23-person team to design and implement core combat systems, the weapon pipeline, player movement, and animation.</p>
   <div class="meta-bar">
@@ -70,6 +59,11 @@
 </div>
 <div class="project-content">
   <div class="content-section">
+    <div class="project-video-box">
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/6RT54vY_SB8?" allow="acceleromerator; fullscreen" allowfullscreen></iframe>
+      </div>
+    </div>
     <h2 class="section-heading">Responsibilities</h2>
     <ul class="resp-list">
       <li>Utilized Animation Notifies to set up animation-based attacks for the player</li>
@@ -80,14 +74,6 @@
       <li>Collaborated with artists on timing and feel of combat and locomotion animations</li>
       <li>Designed enemies that fit properly within the combat sandbox</li>
     </ul>
-  </div>
-  <div class="content-section">
-    <h2 class="section-heading">Scale and Scope</h2>
-    <p class="body-text">Unsanctified was the largest team project in this portfolio at 23 people over 13 months. Beyond feature work, a significant part of the role was refactoring the codebase to be navigable at that team size. Clean architecture became as important as shipping new systems.</p>
-    <p class="body-text">Collaboration with the art team on animation timing and combat feel was a continuous process. Getting hit windows, attack cancels, and locomotion blending to feel correct required close back-and-forth iteration across disciplines.</p>
-    <div class="project-video-box">
-    <iframe src="https://www.youtube.com/embed/6RT54vY_SB8?" allow="accelerometor; fullscreen" allowfullscreen></iframe>
-  </div>
   </div>
 </div>
 <div class="project-footer">
